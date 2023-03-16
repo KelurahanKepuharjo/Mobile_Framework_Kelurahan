@@ -46,4 +46,16 @@ class MyFont {
       fontWeight: fontWeight,
     );
   }
+
+  static TextStyle montserrat({
+    required double fontSize,
+    required Color color,
+    FontWeight fontWeight = FontWeight.normal,
+  }) {
+    return GoogleFonts.montserrat(
+      fontSize: fontSize,
+      color: color,
+      fontWeight: fontWeight,
+    );
+  }
 }
