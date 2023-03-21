@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kepuharjo_framework/HomePage/HomePage.dart';
 import 'package:kepuharjo_framework/Shared/Mycolor.dart';
 import 'package:kepuharjo_framework/Shared/Myfont.dart';
 import 'package:kepuharjo_framework/Comm/MyTextField.dart';
+import 'package:page_transition/page_transition.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,167 +15,203 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   var nik = TextEditingController();
+  var kk = TextEditingController();
   var pw = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
   bool showpass = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: white,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(25),
-          physics: BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                height: 250,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text(
-                      "Login",
-                      style: MyFont.montserrat(
-                          fontSize: 30,
-                          color: black,
-                          fontWeight: FontWeight.bold),
-                    )
-                  ],
+      body: Center(
+        child: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 200,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(" S-Kepuharjo",
+                              style: MyFont.montserrat(
+                                  fontSize: 24,
+                                  color: black,
+                                  fontWeight: FontWeight.bold)),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Image.asset(
+                            "images/mylogo.png",
+                            height: 45,
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        "Smart aplikasi layanan pengajuan\nsurat keterangan.",
+                        textAlign: TextAlign.center,
+                        style: MyFont.poppins(
+                            fontSize: 12,
+                            color: black,
+                            fontWeight: FontWeight.w500),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              GetTextFieldUser(
-                controller: nik,
-                hintName: "No. Kartu Keluarga",
-                keyboardType: TextInputType.name,
-                inputFormatters:
-                    FilteringTextInputFormatter.singleLineFormatter,
-                length: 16,
-                icon: Icons.person_rounded,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              GetTextFieldUser(
-                controller: nik,
-                hintName: "No. NIK",
-                keyboardType: TextInputType.name,
-                inputFormatters:
-                    FilteringTextInputFormatter.singleLineFormatter,
-                length: 16,
-                icon: Icons.person_rounded,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: [
-                  Icon(
-                    Icons.lock_rounded,
-                    size: 25,
-                    color: grey,
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, top: 8, bottom: 8),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Login",
+                        style: MyFont.montserrat(
+                            fontSize: 30,
+                            color: black,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
                   ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Expanded(
-                    child: TextField(
-                      textInputAction: TextInputAction.done,
-                      obscureText: showpass,
-                      controller: pw,
-                      style: MyFont.poppins(fontSize: 13, color: black),
-                      keyboardType: TextInputType.name,
-                      // onSaved: (val) => pw = val as TextEditingController,
-                      // validator: (value) {
-                      //   if (value == null || value.isEmpty) {
-                      //     return 'Please enter Your Password';
-                      //   }
-                      //   return null;
-                      // },
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.singleLineFormatter,
-                        LengthLimitingTextInputFormatter(20)
-                      ],
-                      decoration: InputDecoration(
-                        border: UnderlineInputBorder(
-                            borderSide: BorderSide(color: grey)),
-                        hintText: 'Masukan Kata Sandi',
-                        isDense: true,
-                        // suffixIcon: InkWell(
-                        //   child: Icon(
-                        //     showpass ? Icons.visibility_off : Icons.visibility,
-                        //     size: 20,
-                        //     color: blue,
-                        //   ),
-                        //   onTap: () {
-                        //     setState(() {
-                        //       showpass = !showpass;
-                        //     });
-                        //   },
-                        // ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                GetTextFieldUser(
+                  controller: kk,
+                  label: "No. Kartu Keluarga",
+                  keyboardType: TextInputType.name,
+                  inputFormatters:
+                      FilteringTextInputFormatter.singleLineFormatter,
+                  length: 16,
+                  icon: Icons.person_rounded,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                GetTextFieldUser(
+                  controller: nik,
+                  label: "No. NIK",
+                  keyboardType: TextInputType.name,
+                  inputFormatters:
+                      FilteringTextInputFormatter.singleLineFormatter,
+                  length: 16,
+                  icon: Icons.person_rounded,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.lock_rounded,
+                      size: 25,
+                      color: grey,
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        textInputAction: TextInputAction.done,
+                        obscureText: showpass,
+                        controller: pw,
+                        style: MyFont.poppins(fontSize: 13, color: black),
+                        keyboardType: TextInputType.name,
+                        onSaved: (val) => pw = val as TextEditingController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Masukan password anda';
+                          }
+                          return null;
+                        },
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.singleLineFormatter,
+                          LengthLimitingTextInputFormatter(20)
+                        ],
+                        decoration: InputDecoration(
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: grey)),
+                            labelText: "Password",
+                            labelStyle:
+                                MyFont.poppins(fontSize: 13, color: grey),
+                            suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    showpass = !showpass;
+                                  });
+                                },
+                                icon: showpass
+                                    ? Icon(
+                                        Icons.visibility_off,
+                                        size: 20,
+                                        color: grey,
+                                      )
+                                    : Icon(
+                                        Icons.visibility,
+                                        color: blue,
+                                        size: 20,
+                                      ))),
                       ),
                     ),
-                  ),
-                  InkWell(
-                    child: Icon(
-                      showpass ? Icons.visibility_off : Icons.visibility,
-                      size: 20,
-                      color: blue,
+                  ],
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+                SizedBox(
+                    height: 48,
+                    width: MediaQuery.of(context).size.width,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: blue,
+                          shadowColor: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          )),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            PageTransition(
+                                child: HomePage(),
+                                type: PageTransitionType.fade));
+                      },
+                      child: Text('Masuk',
+                          style: MyFont.poppins(fontSize: 14, color: white)),
+                    )),
+                const SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Belum memiliki akun ? ",
+                      style: MyFont.poppins(fontSize: 11, color: grey),
                     ),
-                    onTap: () {
-                      setState(() {
-                        showpass = !showpass;
-                      });
-                    },
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 50,
-              ),
-              SizedBox(
-                  height: 48,
-                  width: MediaQuery.of(context).size.width,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: blue,
-                        shadowColor: Colors.transparent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        )),
-                    onPressed: () {},
-                    child: Text('Masuk',
-                        style: MyFont.poppins(fontSize: 14, color: white)),
-                  )),
-              const SizedBox(
-                height: 15,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Belum memiliki akun ? ",
-                    style: MyFont.poppins(fontSize: 11, color: grey),
-                  ),
-                  InkWell(
-                    child: Text("Registrasi",
-                        style: MyFont.poppins(fontSize: 12, color: blue)),
-                    onTap: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) =>
-                      //             const AppearanceRegister()));
-                    },
-                  ),
-                ],
-              ),
-            ],
+                    InkWell(
+                      child: Text("Registrasi",
+                          style: MyFont.poppins(fontSize: 12, color: blue)),
+                      onTap: () {
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) =>
+                        //             const AppearanceRegister()));
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

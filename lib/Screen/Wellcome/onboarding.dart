@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kepuharjo_framework/HomePage/HomePage.dart';
 import 'package:kepuharjo_framework/Screen/Login/login.dart';
 import 'package:kepuharjo_framework/Screen/Wellcome/intropage1.dart';
 import 'package:kepuharjo_framework/Screen/Wellcome/intropage2.dart';
@@ -65,7 +66,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             Navigator.pushReplacement(
                                 context,
                                 PageTransition(
-                                    child: LoginPage(),
+                                    child: HomePage(),
                                     type: PageTransitionType.fade));
                           },
                           child: Text(

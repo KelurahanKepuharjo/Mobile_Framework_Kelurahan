@@ -6,7 +6,7 @@ import 'package:kepuharjo_framework/Shared/Myfont.dart';
 
 class GetTextFieldUser extends StatefulWidget {
   TextEditingController controller;
-  String hintName;
+  String label;
   TextInputType keyboardType;
   TextInputFormatter inputFormatters;
   int length;
@@ -15,7 +15,7 @@ class GetTextFieldUser extends StatefulWidget {
   GetTextFieldUser(
       {Key? key,
       required this.controller,
-      required this.hintName,
+      required this.label,
       required this.keyboardType,
       required this.inputFormatters,
       required this.length,
@@ -41,7 +41,7 @@ class _GetTextFieldUserState extends State<GetTextFieldUser> {
           width: 8,
         ),
         Expanded(
-          child: TextField(
+          child: TextFormField(
             textInputAction: widget.textInputAction,
             controller: widget.controller,
             style: MyFont.poppins(fontSize: 13, color: black),
@@ -51,9 +51,10 @@ class _GetTextFieldUserState extends State<GetTextFieldUser> {
               LengthLimitingTextInputFormatter(widget.length)
             ],
             decoration: InputDecoration(
-              hintText: widget.hintName,
-              isDense: true,
-              border: UnderlineInputBorder(borderSide: BorderSide(color: grey)),
+              labelText: widget.label,
+              labelStyle: MyFont.poppins(fontSize: 13, color: grey),
+              focusedBorder:
+                  UnderlineInputBorder(borderSide: BorderSide(color: grey)),
             ),
           ),
         ),
