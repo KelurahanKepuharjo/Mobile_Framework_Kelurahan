@@ -43,7 +43,10 @@ dev_dependencies:
   smooth_page_indicator: ^1.0.1
   path_provider:
   provider: ^6.0.5
-  
+  http: ^0.13.5
+  shared_preferences: ^2.1.0
+  flutter_flushbar: ^0.0.2
+  fluttertoast: ^8.2.1
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

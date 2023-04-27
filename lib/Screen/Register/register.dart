@@ -4,104 +4,116 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kepuharjo_framework/Comm/MySnackbar.dart';
 import 'package:kepuharjo_framework/HomePage/HomePage.dart';
-import 'package:kepuharjo_framework/Screen/Register/register.dart';
+import 'package:kepuharjo_framework/Screen/Login/login.dart';
 import 'package:kepuharjo_framework/Shared/Mycolor.dart';
 import 'package:kepuharjo_framework/Shared/Myfont.dart';
 import 'package:kepuharjo_framework/Comm/MyTextField.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../Rt_Rw/dashboard.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   var nik = TextEditingController();
   var pw = TextEditingController();
+  var notlp = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  bool showpass = true;
 
-  Future<void> saveToken(String token, String data) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('token', token);
-    await prefs.setString('data', data);
-  }
+  // Future register() async {
+  //   const String baseUrl = "http://192.168.43.199:8000/api/auth/register";
+  //   try {
+  //     var res = await http.post(Uri.parse(baseUrl), body: {
+  //       "nik": nik.text,
+  //       "no_hp": notlp.text,
+  //       "password": pw.text,
+  //     });
+  //     if (res.statusCode == 200) {
+  //       final data = jsonDecode(res.body);
+  //       if (data['message'] == "Berhasil Register") {
+  //         Fluttertoast.showToast(msg: "OK", toastLength: Toast.LENGTH_LONG);
+  //       } else if (data['message'] == "Akun sudah terdaftar") {
+  //         Fluttertoast.showToast(
+  //             msg: "Akun Sudah Terdaftar", toastLength: Toast.LENGTH_LONG);
+  //       } else if (data['message'] == "Nik anda belum terdaftar") {
+  //         Fluttertoast.showToast(
+  //             msg: "NIk beum ada", toastLength: Toast.LENGTH_LONG);
+  //       } else {
+  //         MySnackbar(type: SnackbarType.error, title: "Gagal Daftar")
+  //             .showSnackbar(context);
+  //       }
+  //     }
+  //   } catch (e) {
+  //     MySnackbar(type: SnackbarType.error, title: e.toString())
+  //         .showSnackbar(context);
+  //     print(e.toString());
+  //   }
+  // }
+  bool isLoading = false;
+  String errorMsg = '';
 
-  Future login() async {
-    const String baseUrl = "http://192.168.0.117:8000/api/auth/login";
+  Future register() async {
+    setState(() {
+      isLoading = true;
+      errorMsg = '';
+    });
+    const String baseUrl = "http://192.168.0.117:8000/api/auth/register";
+
+    print("Sending request to $baseUrl with params:");
+    print("nik: ${nik.text}, no_hp: ${notlp.text}, password: ${pw.text}");
+
     try {
-      var res = await http.post(Uri.parse(baseUrl),
-          body: {"nik": nik.text, "password": pw.text});
+      var res = await http.post(Uri.parse(baseUrl), body: {
+        "nik": nik.text,
+        "no_hp": notlp.text,
+        "password": pw.text,
+      });
+      print("Response status code: ${res.statusCode}");
+      print("Response body: ${res.body}");
       if (res.statusCode == 200) {
         final data = jsonDecode(res.body);
-        if (data['message'] == "Berhasil login") {
-          // ignore: use_build_context_synchronously
-          MySnackbar(type: SnackbarType.success, title: "Berhasil Login")
+        if (data["message"] == "Berhasil Register") {
+          MySnackbar(
+                  type: SnackbarType.success,
+                  title: "Nik anda berhasil diaktifkan")
               .showSnackbar(context);
-          final prefs = await SharedPreferences.getInstance();
-          prefs.setString('token', data['token']);
-          prefs.setString('role', data['role']);
-          prefs.setString('user', json.encode(data['user']));
-          final role = data['role'];
-          print(prefs);
-          if (role == "4") {
-            // Jika role == 1, push ke HomePage
-            // ignore: use_build_context_synchronously
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const HomePage(),
-              ),
-            );
-          } else if (role == "2") {
-            // Jika role == 2, push ke DashboardRt
-            // ignore: use_build_context_synchronously
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const DashboarRtRw(),
-              ),
-            );
-          } else if (role == "3") {
-            // Jika role == 3, push ke DashboardRw
-            // ignore: use_build_context_synchronously
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const DashboarRtRw(),
-              ),
-            );
-          }
+          setState(() {
+            nik.clear();
+            notlp.clear();
+            pw.clear();
+          });
         }
       } else {
         final data = jsonDecode(res.body);
-        if (data['message'] == "Nik Anda Belum Terdaftar") {
-          // ignore: use_build_context_synchronously
-          MySnackbar(
-                  type: SnackbarType.error, title: "Nik anda belum terdaftar")
-              .showSnackbar(context);
-        } else if (data['message'] == "Password Anda Salah") {
-          // ignore: use_build_context_synchronously
-          MySnackbar(type: SnackbarType.error, title: "Password Anda Salah")
-              .showSnackbar(context);
+        if (data["message"] == "Akun sudah terdaftar") {
+          setState(() {
+            errorMsg = "Akun Sudah Terdaftar";
+          });
+        } else if (data["message"] == "Nik anda belum terdaftar") {
+          setState(() {
+            errorMsg = "Nik anda belum terdaftar di kelurahan";
+          });
         } else {
-          // ignore: use_build_context_synchronously
-          MySnackbar(type: SnackbarType.error, title: "Gagal login")
-              .showSnackbar(context);
+          setState(() {
+            errorMsg = "Gagal Daftar";
+          });
         }
       }
     } catch (e) {
-      MySnackbar(type: SnackbarType.error, title: e.toString())
-          .showSnackbar(context);
+      errorMsg = e.toString();
       print(e.toString());
     }
+    setState(() {
+      isLoading = false;
+    });
   }
 
-  final formKey = GlobalKey<FormState>();
-  bool showpass = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -156,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Row(
                     children: [
                       Text(
-                        "Login",
+                        "Daftar Akun",
                         style: MyFont.montserrat(
                             fontSize: 30,
                             color: black,
@@ -168,12 +180,21 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 20,
                 ),
+                GetTextFieldUser(
+                  controller: nik,
+                  label: "No. NIK",
+                  keyboardType: TextInputType.number,
+                  inputFormatters:
+                      FilteringTextInputFormatter.singleLineFormatter,
+                  length: 16,
+                  icon: Icons.person_rounded,
+                ),
                 const SizedBox(
                   height: 20,
                 ),
                 GetTextFieldUser(
-                  controller: nik,
-                  label: "No. NIK",
+                  controller: notlp,
+                  label: "No.Telepon",
                   keyboardType: TextInputType.number,
                   inputFormatters:
                       FilteringTextInputFormatter.singleLineFormatter,
@@ -209,7 +230,7 @@ class _LoginPageState extends State<LoginPage> {
                         },
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.singleLineFormatter,
-                          LengthLimitingTextInputFormatter(100)
+                          LengthLimitingTextInputFormatter(20)
                         ],
                         decoration: InputDecoration(
                             focusedBorder: UnderlineInputBorder(
@@ -239,6 +260,15 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
                 const SizedBox(
+                  height: 10,
+                ),
+                errorMsg.isEmpty
+                    ? SizedBox.shrink()
+                    : Text(
+                        errorMsg,
+                        style: MyFont.poppins(fontSize: 12, color: Colors.red),
+                      ),
+                const SizedBox(
                   height: 50,
                 ),
                 SizedBox(
@@ -252,10 +282,13 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius: BorderRadius.circular(10),
                           )),
                       onPressed: () async {
-                        login();
+                        isLoading ? null : await register();
                       },
-                      child: Text('Masuk',
-                          style: MyFont.poppins(fontSize: 14, color: white)),
+                      child: isLoading
+                          ? CircularProgressIndicator()
+                          : Text('Daftar',
+                              style:
+                                  MyFont.poppins(fontSize: 14, color: white)),
                     )),
                 const SizedBox(
                   height: 15,
@@ -264,17 +297,17 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Belum memiliki akun ? ",
+                      "Sudah memiliki akun ? ",
                       style: MyFont.poppins(fontSize: 11, color: grey),
                     ),
                     InkWell(
-                      child: Text("Daftar Akun",
+                      child: Text("Login",
                           style: MyFont.poppins(fontSize: 12, color: blue)),
                       onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const RegisterPage()));
+                                builder: (context) => const LoginPage()));
                       },
                     ),
                   ],

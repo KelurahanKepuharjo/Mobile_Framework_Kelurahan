@@ -66,7 +66,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             Navigator.pushReplacement(
                                 context,
                                 PageTransition(
-                                    child: HomePage(),
+                                    child: LoginPage(),
                                     type: PageTransitionType.fade));
                           },
                           child: Text(
