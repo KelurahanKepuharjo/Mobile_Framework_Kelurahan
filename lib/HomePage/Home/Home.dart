@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kepuharjo_framework/HomePage/Home/widget_berita.dart';
 import 'package:kepuharjo_framework/HomePage/Home/widget_headers.dart';
 import 'package:kepuharjo_framework/HomePage/Home/widget_pelayanan.dart';
+import 'package:kepuharjo_framework/HomePage/Home/widget_text_berita.dart';
 import 'package:kepuharjo_framework/Shared/Mycolor.dart';
 import 'package:kepuharjo_framework/Shared/Myfont.dart';
 
@@ -15,7 +17,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: white,
+        backgroundColor: Color(0xfff4f4f4),
         appBar: AppBar(
           automaticallyImplyLeading: false,
           shadowColor: Colors.transparent,
@@ -69,6 +71,11 @@ class _HomeState extends State<Home> {
             children: [
               WidgetHeaders(),
               WidgetPelayanan(),
+              WidgetTextBerita(),
+              WidgetBerita(),
+              SizedBox(
+                height: 50,
+              )
             ],
           ),
         ));

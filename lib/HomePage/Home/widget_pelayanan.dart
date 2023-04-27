@@ -206,8 +206,7 @@ class _WidgetPelayananState extends State<WidgetPelayanan> {
             height: 40,
             width: 40,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.grey.withOpacity(0.3)),
+                borderRadius: BorderRadius.circular(10), color: Colors.white),
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: Column(

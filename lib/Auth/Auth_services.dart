@@ -21,13 +21,6 @@ class AuthServices {
         prefs.remove('token');
         prefs.remove('user');
         prefs.remove('role');
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Berhasil logout'),
-            duration: Duration(seconds: 2),
-            backgroundColor: Colors.green,
-          ),
-        );
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

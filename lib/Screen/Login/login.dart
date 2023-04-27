@@ -23,14 +23,35 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   var nik = TextEditingController();
   var pw = TextEditingController();
-
-  Future<void> saveToken(String token, String data) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('token', token);
-    await prefs.setString('data', data);
+  String errorMsg = '';
+  bool isLoading = false;
+  void verifyLogin() {
+    if (nik.text.isEmpty) {
+      setState(() {
+        errorMsg = "Silahkan isi NIK anda";
+      });
+    } else if (nik.text.length < 16) {
+      setState(() {
+        errorMsg = "Nik tidak boleh kurang dari 16 digit";
+      });
+    } else if (pw.text.isEmpty) {
+      setState(() {
+        errorMsg = "Silahkan isi password anda";
+      });
+    } else if (pw.text.length < 8) {
+      setState(() {
+        errorMsg = "Password tidak boleh kurang dari 8 karakter";
+      });
+    } else {
+      login();
+    }
   }
 
   Future login() async {
+    setState(() {
+      isLoading = true;
+      errorMsg = '';
+    });
     const String baseUrl = "http://192.168.0.117:8000/api/auth/login";
     try {
       var res = await http.post(Uri.parse(baseUrl),
@@ -80,24 +101,28 @@ class _LoginPageState extends State<LoginPage> {
         final data = jsonDecode(res.body);
         if (data['message'] == "Nik Anda Belum Terdaftar") {
           // ignore: use_build_context_synchronously
-          MySnackbar(
-                  type: SnackbarType.error, title: "Nik anda belum terdaftar")
-              .showSnackbar(context);
+          setState(() {
+            errorMsg = "Silahkan Aktifkan NIK anda terlebih dahulu";
+          });
         } else if (data['message'] == "Password Anda Salah") {
-          // ignore: use_build_context_synchronously
-          MySnackbar(type: SnackbarType.error, title: "Password Anda Salah")
-              .showSnackbar(context);
+          setState(() {
+            errorMsg = "Password Anda Salah";
+          });
         } else {
-          // ignore: use_build_context_synchronously
-          MySnackbar(type: SnackbarType.error, title: "Gagal login")
-              .showSnackbar(context);
+          setState(() {
+            errorMsg = "Gagal Login";
+          });
         }
       }
     } catch (e) {
-      MySnackbar(type: SnackbarType.error, title: e.toString())
-          .showSnackbar(context);
+      setState(() {
+        errorMsg = e.toString();
+      });
       print(e.toString());
     }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   final formKey = GlobalKey<FormState>();
@@ -115,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                  height: 200,
+                  height: 150,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -239,6 +264,15 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
                 const SizedBox(
+                  height: 10,
+                ),
+                errorMsg.isEmpty
+                    ? SizedBox.shrink()
+                    : Text(
+                        errorMsg,
+                        style: MyFont.poppins(fontSize: 12, color: Colors.red),
+                      ),
+                const SizedBox(
                   height: 50,
                 ),
                 SizedBox(
@@ -252,10 +286,15 @@ class _LoginPageState extends State<LoginPage> {
                             borderRadius: BorderRadius.circular(10),
                           )),
                       onPressed: () async {
-                        login();
+                        isLoading ? null : verifyLogin();
                       },
-                      child: Text('Masuk',
-                          style: MyFont.poppins(fontSize: 14, color: white)),
+                      child: isLoading
+                          ? CircularProgressIndicator(
+                              color: white,
+                            )
+                          : Text('Masuk',
+                              style:
+                                  MyFont.poppins(fontSize: 14, color: white)),
                     )),
                 const SizedBox(
                   height: 15,

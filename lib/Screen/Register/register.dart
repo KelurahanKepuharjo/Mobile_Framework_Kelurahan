@@ -57,6 +57,38 @@ class _RegisterPageState extends State<RegisterPage> {
   // }
   bool isLoading = false;
   String errorMsg = '';
+  void verifyRegister() {
+    setState(() {
+      errorMsg = '';
+    });
+    if (nik.text.isEmpty) {
+      setState(() {
+        errorMsg = "Silahkan isi NIK anda";
+      });
+    } else if (nik.text.length < 16) {
+      setState(() {
+        errorMsg = "Nik tidak boleh kurang dari 16 digit";
+      });
+    } else if (pw.text.isEmpty) {
+      setState(() {
+        errorMsg = "Silahkan isi password anda";
+      });
+    } else if (pw.text.length < 8) {
+      setState(() {
+        errorMsg = "Password tidak boleh kurang dari 8 karakter";
+      });
+    } else if (notlp.text.isEmpty) {
+      setState(() {
+        errorMsg = "Silahkan isi no.telepon anda";
+      });
+    } else if (notlp.text.length < 11) {
+      setState(() {
+        errorMsg = "No.Telepon tidak boleh kurang dari 11 digit";
+      });
+    } else {
+      register();
+    }
+  }
 
   Future register() async {
     setState(() {
@@ -64,18 +96,12 @@ class _RegisterPageState extends State<RegisterPage> {
       errorMsg = '';
     });
     const String baseUrl = "http://192.168.0.117:8000/api/auth/register";
-
-    print("Sending request to $baseUrl with params:");
-    print("nik: ${nik.text}, no_hp: ${notlp.text}, password: ${pw.text}");
-
     try {
       var res = await http.post(Uri.parse(baseUrl), body: {
         "nik": nik.text,
         "no_hp": notlp.text,
         "password": pw.text,
       });
-      print("Response status code: ${res.statusCode}");
-      print("Response body: ${res.body}");
       if (res.statusCode == 200) {
         final data = jsonDecode(res.body);
         if (data["message"] == "Berhasil Register") {
@@ -93,11 +119,11 @@ class _RegisterPageState extends State<RegisterPage> {
         final data = jsonDecode(res.body);
         if (data["message"] == "Akun sudah terdaftar") {
           setState(() {
-            errorMsg = "Akun Sudah Terdaftar";
+            errorMsg = "NIK sudah terdaftar";
           });
         } else if (data["message"] == "Nik anda belum terdaftar") {
           setState(() {
-            errorMsg = "Nik anda belum terdaftar di kelurahan";
+            errorMsg = "Silahkan melakukan aktifasi akun anda terlebih dahulu";
           });
         } else {
           setState(() {
@@ -282,10 +308,12 @@ class _RegisterPageState extends State<RegisterPage> {
                             borderRadius: BorderRadius.circular(10),
                           )),
                       onPressed: () async {
-                        isLoading ? null : await register();
+                        isLoading ? null : verifyRegister();
                       },
                       child: isLoading
-                          ? CircularProgressIndicator()
+                          ? CircularProgressIndicator(
+                              color: white,
+                            )
                           : Text('Daftar',
                               style:
                                   MyFont.poppins(fontSize: 14, color: white)),
