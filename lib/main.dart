@@ -3,10 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kepuharjo_framework/HomePage/HomePage.dart';
+import 'package:kepuharjo_framework/Rt_Rw/Drawer/select.dart';
+import 'package:kepuharjo_framework/Rt_Rw/MyHomepage_RtRw.dart';
 import 'package:kepuharjo_framework/Rt_Rw/dashboard.dart';
 import 'package:kepuharjo_framework/Screen/Login/login.dart';
 import 'package:kepuharjo_framework/Screen/Wellcome/onboarding.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,7 +17,8 @@ void main() {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (_) => SelectedPage(), child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -77,9 +81,9 @@ class _MyAppState extends State<MyApp> {
                       if (userRole == '4') {
                         return HomePage();
                       } else if (userRole == '2') {
-                        return DashboarRtRw();
+                        return HomePageRTRW();
                       } else if (userRole == '3') {
-                        return DashboarRtRw();
+                        return HomePageRTRW();
                       } else {
                         return OnboardingScreen();
                       }

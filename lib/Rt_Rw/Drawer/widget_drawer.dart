@@ -1,13 +1,5 @@
 import 'package:flutter/material.dart';
 
-class Mycomp {
-  final IconData icon;
-  final String title;
-  final List<String> submenu;
-
-  Mycomp(this.icon, this.title, this.submenu);
-}
-
 class NavigationModel {
   String title;
   IconData icon;

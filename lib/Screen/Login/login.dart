@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kepuharjo_framework/Comm/MySnackbar.dart';
 import 'package:kepuharjo_framework/HomePage/HomePage.dart';
+import 'package:kepuharjo_framework/Rt_Rw/MyHomepage_RtRw.dart';
 import 'package:kepuharjo_framework/Screen/Register/register.dart';
 import 'package:kepuharjo_framework/Shared/Mycolor.dart';
 import 'package:kepuharjo_framework/Shared/Myfont.dart';
@@ -52,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
       isLoading = true;
       errorMsg = '';
     });
-    const String baseUrl = "http://192.168.0.117:8000/api/auth/login";
+    const String baseUrl = "http://192.168.1.18:8000/api/auth/login";
     try {
       var res = await http.post(Uri.parse(baseUrl),
           body: {"nik": nik.text, "password": pw.text});
@@ -83,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const DashboarRtRw(),
+                builder: (context) => const HomePageRTRW(),
               ),
             );
           } else if (role == "3") {
@@ -92,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const DashboarRtRw(),
+                builder: (context) => const HomePageRTRW(),
               ),
             );
           }

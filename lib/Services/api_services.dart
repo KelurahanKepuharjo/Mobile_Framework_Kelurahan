@@ -5,7 +5,7 @@ import 'package:kepuharjo_framework/model/berita_model.dart';
 import 'package:http/http.dart' as http;
 
 class ApiServices {
-  final String _url = 'http://192.168.0.117:8000/api/';
+  final String _url = 'http://192.168.1.18:8000/api/';
   Future<List<Berita>> getBerita() async {
     final response = await http.get(Uri.parse("${_url}berita"));
     if (response.statusCode == 200) {

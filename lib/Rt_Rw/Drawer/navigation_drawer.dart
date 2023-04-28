@@ -1,10 +1,22 @@
+import 'package:kepuharjo_framework/Rt_Rw/Drawer/select.dart';
+import 'package:kepuharjo_framework/Rt_Rw/Screen/Surat_Masuk.dart';
+import 'package:kepuharjo_framework/Rt_Rw/dashboard.dart';
+import 'package:provider/provider.dart';
+
 import '../custom_navigation_drawer.dart';
 import 'package:flutter/material.dart';
 
 class CollapsingNavigationDrawer extends StatefulWidget {
+  final int selectedIndex;
+  final Function(int) onItemClicked;
+  const CollapsingNavigationDrawer({
+    Key? key,
+    required this.selectedIndex,
+    required this.onItemClicked,
+  }) : super(key: key);
   @override
   CollapsingNavigationDrawerState createState() {
-    return new CollapsingNavigationDrawerState();
+    return CollapsingNavigationDrawerState();
   }
 }
 
@@ -13,32 +25,32 @@ class CollapsingNavigationDrawerState extends State<CollapsingNavigationDrawer>
   double maxWidth = 200;
   double minWidth = 80;
   bool isCollapsed = false;
-  late AnimationController _animationController;
-  late Animation<double> widthAnimation;
   int currentSelectedIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
-    widthAnimation = Tween<double>(begin: maxWidth, end: minWidth)
-        .animate(_animationController);
+  }
+
+  void navigateTo(int index) {
+    Provider.of<SelectedPage>(context, listen: false).selectedIndex = index;
+    setState(() {
+      currentSelectedIndex = index;
+    });
+    widget.onItemClicked(index);
+    Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _animationController,
-      builder: (context, widget) => getWidget(context, widget),
-    );
+    return getWidget(context, widget);
   }
 
   Widget getWidget(context, widget) {
     return Material(
       elevation: 80.0,
       child: Container(
-        width: widthAnimation.value,
+        width: 200,
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
           Colors.blue.shade900,
@@ -47,18 +59,8 @@ class CollapsingNavigationDrawerState extends State<CollapsingNavigationDrawer>
         ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
         child: Column(
           children: <Widget>[
-            // CollapsingListTile(
-            //   title: 'Techie',
-            //   icon: Icons.person,
-            //   animationController: _animationController,
-            //   onTap: () {},
-            // ),
-            // Divider(
-            //   color: Colors.grey,
-            //   height: 40.0,
-            // ),
             Padding(
-              padding: EdgeInsets.only(top: 50, bottom: 30),
+              padding: const EdgeInsets.only(top: 50, bottom: 30),
               child: ListTile(
                   leading: Image.asset(
                     "images/mylogo.png",
@@ -75,7 +77,7 @@ class CollapsingNavigationDrawerState extends State<CollapsingNavigationDrawer>
             Expanded(
               child: ListView.separated(
                 separatorBuilder: (context, counter) {
-                  return Divider(height: 12.0);
+                  return const Divider(height: 12.0);
                 },
                 itemBuilder: (context, counter) {
                   return CollapsingListTile(
@@ -83,11 +85,12 @@ class CollapsingNavigationDrawerState extends State<CollapsingNavigationDrawer>
                       setState(() {
                         currentSelectedIndex = counter;
                       });
+                      widget?.onItemClicked(counter);
+                      navigateTo(counter);
                     },
                     isSelected: currentSelectedIndex == counter,
                     title: navigationItems[counter].title,
                     icon: navigationItems[counter].icon,
-                    animationController: _animationController,
                   );
                 },
                 itemCount: navigationItems.length,
