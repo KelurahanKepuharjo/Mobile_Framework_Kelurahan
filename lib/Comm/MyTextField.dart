@@ -11,12 +11,14 @@ class GetTextFieldUser extends StatefulWidget {
   TextInputFormatter inputFormatters;
   int length;
   IconData icon;
+  bool isEnable;
   TextInputAction textInputAction;
   GetTextFieldUser(
       {Key? key,
       required this.controller,
       required this.label,
       required this.keyboardType,
+      this.isEnable = true,
       required this.inputFormatters,
       required this.length,
       required this.icon,
@@ -42,6 +44,7 @@ class _GetTextFieldUserState extends State<GetTextFieldUser> {
         ),
         Expanded(
           child: TextFormField(
+            enabled: widget.isEnable,
             textInputAction: widget.textInputAction,
             controller: widget.controller,
             style: MyFont.poppins(fontSize: 13, color: black),

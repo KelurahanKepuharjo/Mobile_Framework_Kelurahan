@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:kepuharjo_framework/Comm/MySnackbar.dart';
 import 'package:kepuharjo_framework/HomePage/HomePage.dart';
 import 'package:kepuharjo_framework/Screen/Login/login.dart';
+import 'package:kepuharjo_framework/Services/api_connect.dart';
 import 'package:kepuharjo_framework/Shared/Mycolor.dart';
 import 'package:kepuharjo_framework/Shared/Myfont.dart';
 import 'package:kepuharjo_framework/Comm/MyTextField.dart';
@@ -97,7 +98,7 @@ class _RegisterPageState extends State<RegisterPage> {
     });
     const String baseUrl = "http://192.168.0.117:8000/api/auth/register";
     try {
-      var res = await http.post(Uri.parse(baseUrl), body: {
+      var res = await http.post(Uri.parse(Api.register), body: {
         "nik": nik.text,
         "no_hp": notlp.text,
         "password": pw.text,

@@ -6,6 +6,7 @@ import 'package:kepuharjo_framework/HomePage/HomePage.dart';
 import 'package:kepuharjo_framework/Model/user_model.dart';
 import 'package:kepuharjo_framework/Rt_Rw/dashboard.dart';
 import 'package:kepuharjo_framework/Screen/Login/login.dart';
+import 'package:kepuharjo_framework/Services/api_connect.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const String baseUrl = "http://192.168.1.18:8000/api/auth";
@@ -16,7 +17,7 @@ class AuthServices {
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
-      var res = await http.post(Uri.parse('$baseUrl/logout'),
+      var res = await http.post(Uri.parse(Api.logout),
           headers: {"Authorization": "Bearer $token"});
       if (res.statusCode == 200) {
         prefs.remove('token');
@@ -38,8 +39,8 @@ class AuthServices {
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
-      var res = await http.get(Uri.parse('$baseUrl/me'),
-          headers: {"Authorization": "Bearer $token"});
+      var res = await http
+          .get(Uri.parse(Api.me), headers: {"Authorization": "Bearer $token"});
 
       if (res.statusCode == 200) {
         final jsonData = json.decode(res.body);

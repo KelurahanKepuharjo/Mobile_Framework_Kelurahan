@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kepuharjo_framework/Rt_Rw/custom_navigation_drawer.dart';
 import 'package:kepuharjo_framework/Services/api_services.dart';
+import 'package:kepuharjo_framework/Services/notifikasi_services.dart';
 import 'package:kepuharjo_framework/Shared/Myfont.dart';
 import 'package:kepuharjo_framework/model/berita_model.dart';
 
@@ -33,8 +34,11 @@ class _WidgetBeritaState extends State<WidgetBerita> {
     return FutureBuilder<List<Berita>>(
       future: listdata,
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.connectionState == ConnectionState.done &&
+            snapshot.hasData) {
           List<Berita>? data = snapshot.data;
+          NotificationServices().showNotifications(
+              id: 1, title: "S-Kepuharjo", body: "Berita terbaru");
           return SizedBox(
             height: MediaQuery.of(context).size.height * 0.3,
             child: ListView.builder(

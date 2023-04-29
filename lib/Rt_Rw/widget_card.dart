@@ -3,6 +3,8 @@ import 'package:kepuharjo_framework/Model/surat_model.dart';
 import 'package:kepuharjo_framework/Rt_Rw/custom_navigation_drawer.dart';
 import 'package:kepuharjo_framework/Services/api_services.dart';
 
+import '../Model/pengajuan_model.dart';
+
 class WidgetCard extends StatefulWidget {
   const WidgetCard({super.key});
 
@@ -12,10 +14,12 @@ class WidgetCard extends StatefulWidget {
 
 class _WidgetCardState extends State<WidgetCard> {
   List<MasterSurat> _surat = [];
+  List<Pengajuan> pengajuan = [];
   @override
   void initState() {
     super.initState();
     _getSurat();
+    _getSuratMasuk();
   }
 
   Future<void> _getSurat() async {
@@ -23,6 +27,14 @@ class _WidgetCardState extends State<WidgetCard> {
     final surat = await api.getSurat();
     setState(() {
       _surat = surat;
+    });
+  }
+
+  Future<void> _getSuratMasuk() async {
+    final api = ApiServices();
+    final surat = await api.getPengajuan("Diajukan");
+    setState(() {
+      pengajuan = surat;
     });
   }
 
@@ -51,7 +63,7 @@ class _WidgetCardState extends State<WidgetCard> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            "25",
+                            "${pengajuan.length}",
                             style: MyFont.poppins(
                                 fontSize: 20,
                                 color: black,
@@ -264,9 +276,9 @@ class _WidgetCardState extends State<WidgetCard> {
                                 columns: [
                                   DataColumn(
                                       label: Text(
-                                    "No.",
                                     style: MyFont.poppins(
                                         fontSize: 12, color: black),
+                                    "No.",
                                   )),
                                   DataColumn(
                                       label: Text(
