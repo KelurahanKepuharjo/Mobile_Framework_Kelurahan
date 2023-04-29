@@ -17,7 +17,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xfff4f4f4),
+        backgroundColor: Color.fromARGB(255, 248, 248, 248),
         appBar: AppBar(
           automaticallyImplyLeading: false,
           shadowColor: Colors.transparent,
@@ -28,6 +28,14 @@ class _HomeState extends State<Home> {
                 "S-Kepuharjo",
                 style: MyFont.montserrat(
                     fontSize: 18, color: black, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              Image.asset(
+                "images/mylogo.png",
+                width: 30,
+                height: 30,
               ),
             ],
           ),

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kepuharjo_framework/Auth/Auth_services.dart';
 import 'package:kepuharjo_framework/Rt_Rw/Drawer/select.dart';
+import 'package:kepuharjo_framework/Rt_Rw/Screen/Rekap_Pengajuan.dart';
+import 'package:kepuharjo_framework/Rt_Rw/Screen/Surat_Ditolak.dart';
 import 'package:kepuharjo_framework/Rt_Rw/Screen/Surat_Masuk.dart';
 import 'package:kepuharjo_framework/Rt_Rw/Screen/Surat_Selesai.dart';
+import 'package:kepuharjo_framework/Rt_Rw/Screen/Tentang.dart';
 import 'package:kepuharjo_framework/Rt_Rw/custom_navigation_drawer.dart';
 import 'package:kepuharjo_framework/Rt_Rw/dashboard.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +30,14 @@ class _HomePageRTRWState extends State<HomePageRTRW> {
         return DashboarRtRw();
       case 1:
         return SuratMasuk();
-      // add more cases for other screens
+      case 2:
+        return SuratDitolak();
+      case 3:
+        return SuratSelesai();
+      case 4:
+        return RekapPengajuan();
+      case 5:
+        return Tentang();
       default:
         return DashboarRtRw();
     }
@@ -97,51 +107,66 @@ class _HomePageRTRWState extends State<HomePageRTRW> {
           ),
           actions: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Theme(
-                data: Theme.of(context).copyWith(
-                    textTheme: TextTheme().apply(bodyColor: Colors.white),
-                    dividerColor: Colors.white,
-                    iconTheme: IconThemeData(color: Colors.white)),
-                child: PopupMenuButton<int>(
-                  color: Colors.white,
-                  itemBuilder: (context) => [
-                    PopupMenuItem<int>(
-                        value: 0,
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.info,
-                              color: blue,
-                            ),
-                            const SizedBox(
-                              width: 7,
-                            ),
-                            Text(
-                              "Info Aplikasi",
-                              style: MyFont.poppins(fontSize: 12, color: black),
-                            )
-                          ],
-                        )),
-                    PopupMenuItem<int>(
-                        value: 1,
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.help,
-                              color: blue,
-                            ),
-                            const SizedBox(
-                              width: 7,
-                            ),
-                            Text(
-                              "Log Out",
-                              style: MyFont.poppins(fontSize: 12, color: black),
-                            )
-                          ],
-                        )),
-                  ],
-                  onSelected: (item) => selectedItem(context, item),
+              padding: const EdgeInsets.only(right: 5.0),
+              child: IconButton(
+                onPressed: () {
+                  showMenu(
+                      context: context,
+                      position: RelativeRect.fromLTRB(
+                          MediaQuery.of(context).size.width - 50, // right
+                          50,
+                          0,
+                          0),
+                      items: [
+                        PopupMenuItem<int>(
+                            value: 0,
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.info_outline,
+                                  color: blue,
+                                  size: 20,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "Info Aplikasi",
+                                  style: MyFont.poppins(
+                                      fontSize: 12, color: black),
+                                ),
+                              ],
+                            )),
+                        PopupMenuItem<int>(
+                            value: 1,
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.logout_rounded,
+                                  color: blue,
+                                  size: 20,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "Logout",
+                                  style: MyFont.poppins(
+                                      fontSize: 12, color: black),
+                                ),
+                              ],
+                            )),
+                      ]).then((value) {
+                    if (value != null) {
+                      if (value == 1) {
+                        authServices.logout(context);
+                      } else {}
+                    }
+                  });
+                },
+                icon: Icon(
+                  Icons.more_vert,
+                  color: black,
                 ),
               ),
             ),

@@ -14,14 +14,14 @@ class WidgetTextDashboard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
+              padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text("Dashboard",
                       style: MyFont.poppins(
-                          fontSize: 13,
+                          fontSize: 15,
                           color: black,
                           fontWeight: FontWeight.w500)),
                 ],

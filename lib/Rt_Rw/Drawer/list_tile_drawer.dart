@@ -62,8 +62,8 @@ class _CollapsingListTileState extends State<CollapsingListTile> {
                     : MyFont.poppins(
                         fontSize: 13,
                         color: Colors.white70,
-                        fontWeight: FontWeight.normal))
-            // : Container()
+                        fontWeight: FontWeight.normal)),
+            ListTile()
           ],
         ),
       ),

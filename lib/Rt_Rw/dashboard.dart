@@ -8,6 +8,8 @@ import 'package:kepuharjo_framework/HomePage/Home/widget_text_berita.dart';
 import 'package:kepuharjo_framework/Rt_Rw/Drawer/navigation_drawer.dart';
 import 'package:kepuharjo_framework/Rt_Rw/custom_navigation_drawer.dart';
 import 'package:kepuharjo_framework/Rt_Rw/widget_card.dart';
+import 'package:kepuharjo_framework/Rt_Rw/widget_dashboard.dart';
+import 'package:kepuharjo_framework/Rt_Rw/widget_teks_dashboard.dart';
 import 'package:kepuharjo_framework/Screen/Login/login.dart';
 import 'package:kepuharjo_framework/Shared/Mycolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,16 +63,19 @@ class _DashboarRtRwState extends State<DashboarRtRw> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _scaffoldKey,
-        backgroundColor: Color.fromARGB(255, 247, 247, 247),
+        backgroundColor: Color.fromARGB(255, 248, 248, 248),
         // drawer: CollapsingNavigationDrawer(),
         body: SafeArea(
             child: SingleChildScrollView(
           child: Column(
-            children: [
-              WidgetTextBerita(),
+            children: const [
+              WidgetTextDashboard(),
               WidgetCard(),
               WidgetTextBerita(),
-              WidgetBerita()
+              WidgetBerita(),
+              SizedBox(
+                height: 30,
+              )
             ],
           ),
         )));

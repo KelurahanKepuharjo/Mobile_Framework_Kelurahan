@@ -43,48 +43,53 @@ class _WidgetBeritaState extends State<WidgetBerita> {
               itemCount: data!.length,
               itemBuilder: (context, index) {
                 return Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 5),
-                  padding: const EdgeInsets.all(5),
                   width: 200,
                   height: 200,
-                  decoration: BoxDecoration(
-                      color: white, borderRadius: BorderRadius.circular(15)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        height: 120,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage("images/kab.jpeg"),
-                                fit: BoxFit.cover),
-                            borderRadius: BorderRadius.circular(10)),
+                  child: Card(
+                    elevation: 1, // tinggi bayangan
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            height: 120,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: AssetImage("images/kab.jpeg"),
+                                    fit: BoxFit.cover),
+                                borderRadius: BorderRadius.circular(10)),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  data[index].judul.toString(),
+                                  style: MyFont.poppins(
+                                      fontSize: 14,
+                                      color: black,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  data[index].subTitle.toString(),
+                                  style: MyFont.poppins(
+                                      fontSize: 11,
+                                      color: black,
+                                      fontWeight: FontWeight.w300),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              data[index].judul.toString(),
-                              style: MyFont.poppins(
-                                  fontSize: 14,
-                                  color: black,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              data[index].subTitle.toString(),
-                              style: MyFont.poppins(
-                                  fontSize: 11,
-                                  color: black,
-                                  fontWeight: FontWeight.w300),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
+                    ),
                   ),
                 );
               },

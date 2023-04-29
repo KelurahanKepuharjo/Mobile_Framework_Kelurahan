@@ -2,6 +2,7 @@ import 'package:kepuharjo_framework/Rt_Rw/Drawer/select.dart';
 import 'package:kepuharjo_framework/Rt_Rw/Screen/Surat_Masuk.dart';
 import 'package:kepuharjo_framework/Rt_Rw/dashboard.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../custom_navigation_drawer.dart';
 import 'package:flutter/material.dart';
@@ -22,14 +23,24 @@ class CollapsingNavigationDrawer extends StatefulWidget {
 
 class CollapsingNavigationDrawerState extends State<CollapsingNavigationDrawer>
     with SingleTickerProviderStateMixin {
-  double maxWidth = 200;
-  double minWidth = 80;
-  bool isCollapsed = false;
+  late SharedPreferences prefs;
   int currentSelectedIndex = 0;
 
   @override
   void initState() {
     super.initState();
+    _loadSharedPreferences();
+  }
+
+  void _loadSharedPreferences() async {
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+      currentSelectedIndex = prefs.getInt('selectedIndex') ?? 0;
+    });
+  }
+
+  void saveSharedPreferences(int index) async {
+    await prefs.setInt('selectedIndex', index);
   }
 
   void navigateTo(int index) {
@@ -76,22 +87,46 @@ class CollapsingNavigationDrawerState extends State<CollapsingNavigationDrawer>
             ),
             Expanded(
               child: ListView.separated(
-                separatorBuilder: (context, counter) {
+                separatorBuilder: (context, index) {
                   return const Divider(height: 12.0);
                 },
-                itemBuilder: (context, counter) {
-                  return CollapsingListTile(
-                    onTap: () {
-                      setState(() {
-                        currentSelectedIndex = counter;
-                      });
-                      widget?.onItemClicked(counter);
-                      navigateTo(counter);
-                    },
-                    isSelected: currentSelectedIndex == counter,
-                    title: navigationItems[counter].title,
-                    icon: navigationItems[counter].icon,
-                  );
+                itemBuilder: (context, index) {
+                  final NavigationModel item = navigationItems[index];
+                  return Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 12.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: currentSelectedIndex == index
+                            ? Colors.transparent.withOpacity(0.3)
+                            : Colors.transparent,
+                      ),
+                      child: ListTile(
+                        leading: Icon(
+                          item.icon,
+                          color: currentSelectedIndex == index
+                              ? selectedColor
+                              : Colors.white30,
+                          size: 20.0,
+                        ),
+                        title: Text(item.title,
+                            style: currentSelectedIndex == index
+                                ? MyFont.poppins(
+                                    fontSize: 13,
+                                    color: white,
+                                    fontWeight: FontWeight.normal)
+                                : MyFont.poppins(
+                                    fontSize: 13,
+                                    color: Colors.white70,
+                                    fontWeight: FontWeight.normal)),
+                        selected: currentSelectedIndex == index,
+                        onTap: () {
+                          setState(() {
+                            currentSelectedIndex = index;
+                            saveSharedPreferences(index);
+                          });
+                          navigateTo(index);
+                        },
+                      ));
                 },
                 itemCount: navigationItems.length,
               ),
