@@ -5,6 +5,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
+import 'package:kepuharjo_framework/Auth/Auth_services.dart';
+import 'package:kepuharjo_framework/Services/api_services.dart';
 import 'package:kepuharjo_framework/Services/notifikasi_services.dart';
 
 Future<void> initializeService() async {
@@ -16,6 +18,18 @@ Future<void> initializeService() async {
           onBackground: onIosBackground),
       androidConfiguration: AndroidConfiguration(
           onStart: onStart, isForegroundMode: true, autoStart: true));
+  service.startService();
+  Timer.periodic(Duration(minutes: 1), (timer) {
+    getData();
+  });
+}
+
+void getData() async {
+  final auth = AuthServices();
+  final user = await auth.me();
+  final rt = user?.masyarakat?.kks?.rt?.toString() ?? '';
+  final allData = await ApiServices().getAllData(rt);
+  print(allData);
 }
 
 @pragma('vm:entry-point')

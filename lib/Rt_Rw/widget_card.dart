@@ -15,11 +15,15 @@ class WidgetCard extends StatefulWidget {
 class _WidgetCardState extends State<WidgetCard> {
   List<MasterSurat> _surat = [];
   List<Pengajuan> pengajuan = [];
+  List<Pengajuan> pengajuan1 = [];
+  List<Pengajuan> pengajuan2 = [];
   @override
   void initState() {
     super.initState();
     _getSurat();
     _getSuratMasuk();
+    _getSuratDisetujui();
+    _getSuratDitolak();
   }
 
   Future<void> _getSurat() async {
@@ -35,6 +39,22 @@ class _WidgetCardState extends State<WidgetCard> {
     final surat = await api.getPengajuan("Diajukan");
     setState(() {
       pengajuan = surat;
+    });
+  }
+
+  Future<void> _getSuratDisetujui() async {
+    final api = ApiServices();
+    final surat = await api.getPengajuan("Disetujui");
+    setState(() {
+      pengajuan1 = surat;
+    });
+  }
+
+  Future<void> _getSuratDitolak() async {
+    final api = ApiServices();
+    final surat = await api.getPengajuan("Ditolak");
+    setState(() {
+      pengajuan2 = surat;
     });
   }
 
@@ -92,14 +112,14 @@ class _WidgetCardState extends State<WidgetCard> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            "15",
+                            "${pengajuan1.length}",
                             style: MyFont.poppins(
                                 fontSize: 20,
                                 color: black,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            "Surat Selesai",
+                            "Surat Disetujui",
                             style: MyFont.poppins(
                                 fontSize: 12,
                                 color: black,
@@ -121,7 +141,7 @@ class _WidgetCardState extends State<WidgetCard> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            "20",
+                            "${pengajuan2.length}",
                             style: MyFont.poppins(
                                 fontSize: 20,
                                 color: black,

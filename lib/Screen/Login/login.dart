@@ -61,6 +61,10 @@ class _LoginPageState extends State<LoginPage> {
       if (res.statusCode == 200) {
         final data = jsonDecode(res.body);
         if (data['message'] == "Berhasil login") {
+          setState(() {
+            nik.clear();
+            pw.clear();
+          });
           // ignore: use_build_context_synchronously
           MySnackbar(type: SnackbarType.success, title: "Berhasil Login")
               .showSnackbar(context);

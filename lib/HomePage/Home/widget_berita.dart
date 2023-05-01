@@ -37,8 +37,8 @@ class _WidgetBeritaState extends State<WidgetBerita> {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.hasData) {
           List<Berita>? data = snapshot.data;
-          NotificationServices().showNotifications(
-              id: 1, title: "S-Kepuharjo", body: "Berita terbaru");
+          // NotificationServices().showNotifications(
+          //     id: 1, title: "S-Kepuharjo", body: "Berita terbaru");
           return SizedBox(
             height: MediaQuery.of(context).size.height * 0.3,
             child: ListView.builder(

@@ -41,9 +41,8 @@ class AuthServices {
       final token = prefs.getString('token');
       var res = await http
           .get(Uri.parse(Api.me), headers: {"Authorization": "Bearer $token"});
-
       if (res.statusCode == 200) {
-        final jsonData = json.decode(res.body);
+        final jsonData = json.decode(res.body)['user'];
         final user = User.fromJson(jsonData);
         prefs.setString('user', json.encode(jsonData));
         return user;

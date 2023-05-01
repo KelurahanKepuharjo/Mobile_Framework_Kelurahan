@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kepuharjo_framework/Auth/Auth_services.dart';
+import 'package:kepuharjo_framework/Model/user_model.dart';
 import 'package:kepuharjo_framework/Rt_Rw/Drawer/select.dart';
 import 'package:kepuharjo_framework/Rt_Rw/Screen/Rekap_Pengajuan.dart';
 import 'package:kepuharjo_framework/Rt_Rw/Screen/Surat_Ditolak.dart';
@@ -22,6 +23,28 @@ class _HomePageRTRWState extends State<HomePageRTRW> {
 
   void _openDrawer() {
     _scaffoldKey.currentState?.openDrawer();
+  }
+
+  AuthServices _authServices = AuthServices();
+  User? _user;
+
+  Future<void> _getUserData() async {
+    try {
+      final authServices = AuthServices();
+      final user = await authServices.me();
+      setState(() {
+        _user = user;
+      });
+      print(_user?.masyarakat?.kks?.rt.toString());
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
   }
 
   Widget getPage(int index) {
