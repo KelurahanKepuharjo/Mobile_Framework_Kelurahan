@@ -1,9 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kepuharjo_framework/Comm/MySnackbar.dart';
 import 'package:kepuharjo_framework/Comm/MyTextField.dart';
 import 'package:kepuharjo_framework/Model/pengajuan_model.dart';
 import 'package:kepuharjo_framework/Rt_Rw/custom_navigation_drawer.dart';
+import 'package:kepuharjo_framework/Services/api_connect.dart';
 import 'package:kepuharjo_framework/Services/api_services.dart';
+import 'package:http/http.dart' as http;
 
 class SuratMasuk extends StatefulWidget {
   const SuratMasuk({super.key});
@@ -27,6 +33,27 @@ class _SuratMasukState extends State<SuratMasuk> {
     setState(() {
       pengajuan = surat;
     });
+  }
+
+  Future setujui(String nik, String id) async {
+    try {
+      var res = await http
+          .post(Uri.parse(Api.disetujui), body: {"nik": nik, "id_surat": id});
+      if (res.statusCode == 200) {
+        final data = jsonDecode(res.body);
+        if (data['message'] == "Surat berhasil dibatalkan") {
+          MySnackbar(
+                  type: SnackbarType.success, title: "Surat Berhasil Disetujui")
+              .showSnackbar(context);
+          Navigator.pop(context);
+        } else {
+          MySnackbar(type: SnackbarType.failed, title: "Gagal")
+              .showSnackbar(context);
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   @override
@@ -351,7 +378,14 @@ class _SuratMasukState extends State<SuratMasuk> {
                                                                           borderRadius:
                                                                               BorderRadius.circular(10),
                                                                         )),
-                                                                    onPressed: () {},
+                                                                    onPressed: () {
+                                                                      setState(
+                                                                          () {
+                                                                        setujui(
+                                                                            pengajuan[index].nik.toString(),
+                                                                            e.surat!.idSurat.toString());
+                                                                      });
+                                                                    },
                                                                     child: Text(
                                                                       "Setujui",
                                                                       style: MyFont.poppins(

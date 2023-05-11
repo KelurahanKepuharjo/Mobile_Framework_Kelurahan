@@ -23,11 +23,8 @@ class _RekapPengajuanState extends State<RekapPengajuan> {
   }
 
   Future<void> getRekapPengajuan() async {
-    final auth = AuthServices();
     final api = ApiServices();
-    final user = await auth.me();
-    final rt = user?.masyarakat?.kks?.rt?.toString() ?? '';
-    final surat = await api.getRekap(rt);
+    final surat = await api.getRekap();
     setState(() {
       pengajuan = surat;
     });

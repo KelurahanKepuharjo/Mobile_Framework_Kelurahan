@@ -53,7 +53,11 @@ class ApiServices {
     }
   }
 
-  Future<List<Pengajuan>> getRekap(String rt) async {
+  Future<List<Pengajuan>> getRekap() async {
+    final auth = AuthServices();
+    User? user = await auth.me();
+    final rt = user?.masyarakat?.kks?.rt?.toString() ?? '';
+    print("ini rt" + rt);
     final response = await http.post(Uri.parse(Api.rekap), body: {"rt": rt});
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body)['data'];
@@ -78,7 +82,7 @@ class ApiServices {
     List<dynamic> allData = [];
     allData.add(await getBerita());
     allData.add(await getSurat());
-    allData.add(await getRekap(rt));
+    allData.add(await getRekap());
     allData.add(await getPengajuan("Diajukan"));
     allData.add(await getPengajuan("Disetujui"));
     allData.add(await getPengajuan("Ditolak"));

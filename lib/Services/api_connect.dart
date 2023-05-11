@@ -1,6 +1,7 @@
 class Api {
-  static const connectHost = "http://10.10.182.74:8000/api";
-  static const connectimage = "http://10.10.182.74:8000/images/";
+  static const connectapi = "http://192.168.1.79:8000";
+  static const connectHost = "$connectapi/api";
+  static const connectimage = "$connectapi/images/";
 
   static const login = "$connectHost/auth/login";
   static const register = "$connectHost/auth/register";
@@ -11,4 +12,5 @@ class Api {
   static const suratmasuk = "$connectHost/suratmasuk";
   static const rekap = "$connectHost/rekap";
   static const keluarga = "$connectHost/keluarga";
+  static const disetujui = "$connectHost/disetujui";
 }

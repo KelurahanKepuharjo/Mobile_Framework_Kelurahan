@@ -23,7 +23,7 @@ class _SuratDitolakState extends State<SuratDitolak> {
 
   Future<void> getSuratDitolak() async {
     final api = ApiServices();
-    final surat = await api.getPengajuan("Ditolak");
+    final surat = await api.getPengajuan("Ditolak RT");
     setState(() {
       pengajuan = surat;
     });
