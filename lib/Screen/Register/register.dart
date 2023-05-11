@@ -195,7 +195,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Row(
                     children: [
                       Text(
-                        "Daftar Akun",
+                        "Aktifasi Akun",
                         style: MyFont.montserrat(
                             fontSize: 30,
                             color: black,
@@ -226,7 +226,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   inputFormatters:
                       FilteringTextInputFormatter.singleLineFormatter,
                   length: 16,
-                  icon: Icons.person_rounded,
+                  icon: Icons.call,
                 ),
                 const SizedBox(
                   height: 20,
@@ -326,7 +326,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Sudah memiliki akun ? ",
+                      "Sudah mengaktifasi akun ? ",
                       style: MyFont.poppins(fontSize: 11, color: grey),
                     ),
                     InkWell(

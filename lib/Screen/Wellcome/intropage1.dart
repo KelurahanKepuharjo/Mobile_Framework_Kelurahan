@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kepuharjo_framework/Rt_Rw/custom_navigation_drawer.dart';
 
 class IntroPage1 extends StatelessWidget {
   const IntroPage1({super.key});
@@ -6,7 +7,24 @@ class IntroPage1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text("Page 1"),
-    );
+        child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.network(
+              "http://suket-kel.wstif3a.id/assets/img/gambarhome.png"),
+          const SizedBox(
+            height: 70,
+          ),
+          Text(
+            "Smart App Pengajuan Surat\nS-Kepuharjo akan mempermudahkan dalam proses pengajuan surat yang dilakukan oleh masyarakat.",
+            textAlign: TextAlign.center,
+            style: MyFont.poppins(fontSize: 12, color: black),
+          )
+        ],
+      ),
+    ));
   }
 }

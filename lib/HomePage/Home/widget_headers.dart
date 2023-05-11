@@ -57,9 +57,11 @@ class _WidgetHeadersState extends State<WidgetHeaders> {
                     height: 150,
                     width: size.width,
                     decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage("images/kab.jpeg"),
-                            fit: BoxFit.cover)),
+                      color: blue,
+                      image: DecorationImage(
+                          image: AssetImage("images/kab.jpeg"),
+                          fit: BoxFit.cover),
+                    ),
                     child: AnimatedContainer(
                       duration: Duration(seconds: 1),
                       color: select
@@ -77,20 +79,23 @@ class _WidgetHeadersState extends State<WidgetHeaders> {
                                         fontSize: 18, color: white),
                                     duration: Duration(seconds: 2),
                                     child: Text(""))
-                                : AnimatedDefaultTextStyle(
-                                    curve: Curves.slowMiddle,
-                                    style: MyFont.poppins(
-                                        fontSize: 18,
-                                        color: white,
-                                        fontWeight: FontWeight.bold),
-                                    duration: Duration(seconds: 2),
-                                    child: Text(
-                                      "Profil Kelurahan",
-                                      style: MyFont.poppins(
-                                          fontSize: 18,
-                                          color: white,
-                                          fontWeight: FontWeight.bold),
-                                    ))
+                                : Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: AnimatedDefaultTextStyle(
+                                        curve: Curves.slowMiddle,
+                                        style: MyFont.poppins(
+                                            fontSize: 18,
+                                            color: white,
+                                            fontWeight: FontWeight.bold),
+                                        duration: Duration(seconds: 2),
+                                        child: Text(
+                                          "Profil Kelurahan",
+                                          style: MyFont.poppins(
+                                              fontSize: 18,
+                                              color: white,
+                                              fontWeight: FontWeight.bold),
+                                        )),
+                                  )
                           ],
                         ),
                       ),

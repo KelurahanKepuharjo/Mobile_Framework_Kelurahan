@@ -1,14 +1,85 @@
-class Pengajuan {
-  String? uuid;
-  String? status;
-  String? keterangan;
-  String? createdAt;
-  String? filePdf;
+class Keluarga {
+  String? id;
+  int? noKk;
+  String? namaKepalaKeluarga;
+  String? alamat;
+  int? rt;
+  int? rw;
+  int? kodePos;
+  String? kelurahan;
+  String? kecamatan;
+  String? kabupaten;
+  String? provinsi;
+  String? kkTgl;
+  Null? createdAt;
+  Null? updatedAt;
+  List<Masyarakat>? masyarakat;
+
+  Keluarga(
+      {this.id,
+      this.noKk,
+      this.namaKepalaKeluarga,
+      this.alamat,
+      this.rt,
+      this.rw,
+      this.kodePos,
+      this.kelurahan,
+      this.kecamatan,
+      this.kabupaten,
+      this.provinsi,
+      this.kkTgl,
+      this.createdAt,
+      this.updatedAt,
+      this.masyarakat});
+
+  Keluarga.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    noKk = json['no_kk'];
+    namaKepalaKeluarga = json['nama_kepala_keluarga'];
+    alamat = json['alamat'];
+    rt = json['rt'];
+    rw = json['rw'];
+    kodePos = json['kode_pos'];
+    kelurahan = json['kelurahan'];
+    kecamatan = json['kecamatan'];
+    kabupaten = json['kabupaten'];
+    provinsi = json['provinsi'];
+    kkTgl = json['kk_tgl'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    if (json['masyarakat'] != null) {
+      masyarakat = <Masyarakat>[];
+      json['masyarakat'].forEach((v) {
+        masyarakat!.add(new Masyarakat.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['no_kk'] = this.noKk;
+    data['nama_kepala_keluarga'] = this.namaKepalaKeluarga;
+    data['alamat'] = this.alamat;
+    data['rt'] = this.rt;
+    data['rw'] = this.rw;
+    data['kode_pos'] = this.kodePos;
+    data['kelurahan'] = this.kelurahan;
+    data['kecamatan'] = this.kecamatan;
+    data['kabupaten'] = this.kabupaten;
+    data['provinsi'] = this.provinsi;
+    data['kk_tgl'] = this.kkTgl;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    if (this.masyarakat != null) {
+      data['masyarakat'] = this.masyarakat!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Masyarakat {
   String? idMasyarakat;
-  int? idSurat;
-  String? namaSurat;
-  String? image;
-  String? updatedAt;
   int? nik;
   String? namaLengkap;
   String? jenisKelamin;
@@ -26,20 +97,12 @@ class Pengajuan {
   String? noKitap;
   String? namaAyah;
   String? namaIbu;
-  int? id;
-  Surat? surat;
+  String? createdAt;
+  String? updatedAt;
+  String? id;
 
-  Pengajuan(
-      {this.uuid,
-      this.status,
-      this.keterangan,
-      this.createdAt,
-      this.filePdf,
-      this.idMasyarakat,
-      this.idSurat,
-      this.namaSurat,
-      this.image,
-      this.updatedAt,
+  Masyarakat(
+      {this.idMasyarakat,
       this.nik,
       this.namaLengkap,
       this.jenisKelamin,
@@ -57,20 +120,12 @@ class Pengajuan {
       this.noKitap,
       this.namaAyah,
       this.namaIbu,
-      this.id,
-      this.surat});
+      this.createdAt,
+      this.updatedAt,
+      this.id});
 
-  Pengajuan.fromJson(Map<String, dynamic> json) {
-    uuid = json['uuid'];
-    status = json['status'];
-    keterangan = json['keterangan'];
-    createdAt = json['created_at'];
-    filePdf = json['file_pdf'];
+  Masyarakat.fromJson(Map<String, dynamic> json) {
     idMasyarakat = json['id_masyarakat'];
-    idSurat = json['id_surat'];
-    namaSurat = json['nama_surat'];
-    image = json['image'];
-    updatedAt = json['updated_at'];
     nik = json['nik'];
     namaLengkap = json['nama_lengkap'];
     jenisKelamin = json['jenis_kelamin'];
@@ -88,22 +143,14 @@ class Pengajuan {
     noKitap = json['no_kitap'];
     namaAyah = json['nama_ayah'];
     namaIbu = json['nama_ibu'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
     id = json['id'];
-    surat = json['surat'] != null ? new Surat.fromJson(json['surat']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['uuid'] = this.uuid;
-    data['status'] = this.status;
-    data['keterangan'] = this.keterangan;
-    data['created_at'] = this.createdAt;
-    data['file_pdf'] = this.filePdf;
     data['id_masyarakat'] = this.idMasyarakat;
-    data['id_surat'] = this.idSurat;
-    data['nama_surat'] = this.namaSurat;
-    data['image'] = this.image;
-    data['updated_at'] = this.updatedAt;
     data['nik'] = this.nik;
     data['nama_lengkap'] = this.namaLengkap;
     data['jenis_kelamin'] = this.jenisKelamin;
@@ -121,43 +168,9 @@ class Pengajuan {
     data['no_kitap'] = this.noKitap;
     data['nama_ayah'] = this.namaAyah;
     data['nama_ibu'] = this.namaIbu;
-    data['id'] = this.id;
-    if (this.surat != null) {
-      data['surat'] = this.surat!.toJson();
-    }
-    return data;
-  }
-}
-
-class Surat {
-  int? idSurat;
-  String? namaSurat;
-  String? image;
-  Null? createdAt;
-  Null? updatedAt;
-
-  Surat(
-      {this.idSurat,
-      this.namaSurat,
-      this.image,
-      this.createdAt,
-      this.updatedAt});
-
-  Surat.fromJson(Map<String, dynamic> json) {
-    idSurat = json['id_surat'];
-    namaSurat = json['nama_surat'];
-    image = json['image'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id_surat'] = this.idSurat;
-    data['nama_surat'] = this.namaSurat;
-    data['image'] = this.image;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['id'] = this.id;
     return data;
   }
 }

@@ -309,11 +309,11 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Belum memiliki akun ? ",
+                      "Belum mengaktifkan akun ? ",
                       style: MyFont.poppins(fontSize: 11, color: grey),
                     ),
                     InkWell(
-                      child: Text("Daftar Akun",
+                      child: Text("Aktifasi Akun",
                           style: MyFont.poppins(fontSize: 12, color: blue)),
                       onTap: () {
                         Navigator.push(

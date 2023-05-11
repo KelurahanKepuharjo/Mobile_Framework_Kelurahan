@@ -1,16 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:kepuharjo_framework/HomePage/Pengajuan/daftar_keluarga.dart';
+import 'package:kepuharjo_framework/HomePage/Pengajuan/pengajuan_surat.dart';
+import 'package:kepuharjo_framework/Model/surat_model.dart';
+import 'package:kepuharjo_framework/Services/api_connect.dart';
+import 'package:kepuharjo_framework/Services/api_services.dart';
 import 'package:kepuharjo_framework/Shared/Mycolor.dart';
 import 'package:kepuharjo_framework/Shared/Myfont.dart';
 import 'package:provider/provider.dart';
 
 class WidgetPelayanan extends StatefulWidget {
-  const WidgetPelayanan({super.key});
+  const WidgetPelayanan({Key? key}) : super(key: key);
 
   @override
   State<WidgetPelayanan> createState() => _WidgetPelayananState();
 }
 
 class _WidgetPelayananState extends State<WidgetPelayanan> {
+  ApiServices apiServices = ApiServices();
+  late Future<List<MasterSurat>> listdata;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    listdata = apiServices.getSurat();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -38,21 +53,95 @@ class _WidgetPelayananState extends State<WidgetPelayanan> {
             ),
           ),
           SizedBox(
-              height: 165,
-              child: GridView.count(
-                crossAxisCount: 4,
-                crossAxisSpacing: 5,
-                children: [
-                  getMenu("Tidak Mampu", Icons.assignment, 0),
-                  getMenu("Usaha", Icons.home_work, 1),
-                  getMenu("Kematian", Icons.add_box_outlined, 2),
-                  getMenu("Domisili", Icons.location_on, 3),
-                  getMenu("Belum Nikah", Icons.diamond, 4),
-                  getMenu("Kenal Lahir", Icons.child_friendly, 5),
-                  getMenu("Berkelakuan Baik", Icons.people_alt, 6),
-                  getMenu("Lainnya", Icons.grid_view_rounded, 7)
-                ],
-              )),
+            height: 200,
+            child: FutureBuilder<List<MasterSurat>>(
+              future: listdata,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  List<MasterSurat>? isiData = snapshot.data;
+                  return GridView.builder(
+                    itemCount: isiData!.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4,
+                            crossAxisSpacing: 0,
+                            mainAxisSpacing: 0,
+                            mainAxisExtent: 100),
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DaftarKeluarga(
+                                  selectedSurat: isiData[index],
+                                ),
+                              ));
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.white),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    index < isiData.length
+                                        ? Image.network(
+                                            Api.connectimage +
+                                                isiData[index].image.toString(),
+                                            height: 20,
+                                          )
+                                        : SizedBox()
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: Text(isiData[index].namaSurat.toString(),
+                                  textAlign: TextAlign.center,
+                                  style: MyFont.poppins(
+                                      fontSize: 11, color: black)),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.data}");
+                }
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: blue,
+                  ),
+                );
+              },
+            ),
+            // child: GridView.count(
+            //   crossAxisCount: 4,
+            //   crossAxisSpacing: 5,
+            //   children: [
+            //     getMenu("Tidak Mampu", Icons.assignment, 0),
+            //     getMenu("Usaha", Icons.home_work, 1),
+            //     getMenu("Kematian", Icons.add_box_outlined, 2),
+            //     getMenu("Domisili", Icons.location_on, 3),
+            //     getMenu("Belum Nikah", Icons.diamond, 4),
+            //     getMenu("Kenal Lahir", Icons.child_friendly, 5),
+            //     getMenu("Berkelakuan Baik", Icons.people_alt, 6),
+            //     getMenu("Lainnya", Icons.grid_view_rounded, 7)
+            //   ],
+            // ),
+          ),
         ],
       ),
     );

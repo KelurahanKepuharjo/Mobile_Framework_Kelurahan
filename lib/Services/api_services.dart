@@ -41,8 +41,8 @@ class ApiServices {
   Future<List<Pengajuan>> getPengajuan(String status) async {
     final auth = AuthServices();
     User? user = await auth.me();
-    String rt = user?.masyarakat?.kks?.rt.toString() ?? '';
-    print(rt);
+    final rt = user?.masyarakat?.kks?.rt?.toString() ?? '';
+    print("ini rt" + rt);
     final response = await http
         .post(Uri.parse(Api.suratmasuk), body: {"rt": rt, "status": status});
     if (response.statusCode == 200) {
@@ -58,6 +58,17 @@ class ApiServices {
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body)['data'];
       return jsonResponse.map((e) => Pengajuan.fromJson(e)).toList();
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
+
+  Future<List<dynamic>> keluarga(String nokk) async {
+    final response =
+        await http.post(Uri.parse(Api.keluarga), body: {"no_kk": nokk});
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body)['data'];
+      return jsonData;
     } else {
       throw Exception('Failed to load');
     }

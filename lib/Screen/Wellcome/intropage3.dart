@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kepuharjo_framework/Shared/Mycolor.dart';
+import 'package:kepuharjo_framework/Shared/Myfont.dart';
 
 class IntroPage3 extends StatelessWidget {
   const IntroPage3({super.key});
@@ -6,7 +8,24 @@ class IntroPage3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text("Page 3"),
-    );
+        child: Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.network(
+              "http://suket-kel.wstif3a.id/assets/img/gbrmanajemen.png"),
+          const SizedBox(
+            height: 70,
+          ),
+          Text(
+            "S-Kepuharjo memiliki 2 aplikasi. Aplikasi web untuk administrator (RT dan RW), aplikasi mobile untuk masyarakat. Aplikasi mobile memungkinkan pengguna mengakses berita terkini dan melakukan pengajuan surat dengan praktis.",
+            textAlign: TextAlign.center,
+            style: MyFont.poppins(fontSize: 12, color: black),
+          )
+        ],
+      ),
+    ));
   }
 }
