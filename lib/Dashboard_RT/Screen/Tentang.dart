@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kepuharjo_framework/Rt_Rw/custom_navigation_drawer.dart';
+import 'package:kepuharjo_framework/Dashboard_RT/custom_navigation_drawer.dart';
 
 class Tentang extends StatefulWidget {
   const Tentang({super.key});
@@ -23,15 +23,6 @@ class _TentangState extends State<Tentang> {
               style: MyFont.montserrat(
                   fontSize: 16, color: black, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 15),
-            Text(
-              "Sistem Informasi Pengajuan Surat",
-              style: MyFont.montserrat(
-                  fontSize: 14, color: blue, fontWeight: FontWeight.normal),
-            ),
-            const SizedBox(height: 30),
-            Image.network(
-                "https://suket-kel.wstif3a.id/images/icon-laman-tentang.png"),
             const SizedBox(height: 30),
             Text(
               "      S-kepuharjo merupakan aplikasi berbasis website dan mobile kepuharjo ini dapat digunakan oleh pihak masyarakat, RT, dan RW serta website khusus untuk pihak Admin Kelurahan yang digunakan untuk menampung surat sekaligus digunakan untuk data master dari masyarakat, dan diharapkan juga aplikasi pengajuan surat untuk masyarakat ini dapat dilakukan dimanapun dan kapanpun sehingga menjadi lebih efektif dan efisien.",
@@ -51,7 +42,8 @@ class _TentangState extends State<Tentang> {
                 style: MyFont.poppins(fontSize: 12, color: softgrey),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
+            Image.asset("images/gbr_tentang2.png"),
           ],
         ),
       )),

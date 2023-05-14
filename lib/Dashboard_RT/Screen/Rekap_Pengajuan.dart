@@ -1,29 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kepuharjo_framework/Auth/Auth_services.dart';
 import 'package:kepuharjo_framework/Comm/MyTextField.dart';
 import 'package:kepuharjo_framework/Model/pengajuan_model.dart';
-import 'package:kepuharjo_framework/Rt_Rw/custom_navigation_drawer.dart';
+import 'package:kepuharjo_framework/Dashboard_RT/custom_navigation_drawer.dart';
 import 'package:kepuharjo_framework/Services/api_services.dart';
 
-class SuratDitolak extends StatefulWidget {
-  const SuratDitolak({super.key});
+class RekapPengajuan extends StatefulWidget {
+  const RekapPengajuan({super.key});
 
   @override
-  State<SuratDitolak> createState() => _SuratDitolakState();
+  State<RekapPengajuan> createState() => _RekapPengajuanState();
 }
 
-class _SuratDitolakState extends State<SuratDitolak> {
+class _RekapPengajuanState extends State<RekapPengajuan> {
   List<Pengajuan> pengajuan = [];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getSuratDitolak();
+    getRekapPengajuan();
   }
 
-  Future<void> getSuratDitolak() async {
+  Future<void> getRekapPengajuan() async {
     final api = ApiServices();
-    final surat = await api.getPengajuan("Ditolak RT");
+    final surat = await api.getRekap();
     setState(() {
       pengajuan = surat;
     });
@@ -56,14 +57,14 @@ class _SuratDitolakState extends State<SuratDitolak> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Surat Ditolak",
+                                "Rekap Pengajuan",
                                 style: MyFont.poppins(
                                     fontSize: 14,
                                     color: black,
                                     fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                "Menampilkan data surat yang telah ditolak",
+                                "Menampilkan hasil data semua surat",
                                 style: MyFont.poppins(
                                     fontSize: 12,
                                     color: softgrey,
@@ -99,6 +100,13 @@ class _SuratDitolakState extends State<SuratDitolak> {
                                 ),
                                 DataColumn(
                                   label: Text(
+                                    "Keterangan",
+                                    style: MyFont.poppins(
+                                        fontSize: 12, color: black),
+                                  ),
+                                ),
+                                DataColumn(
+                                  label: Text(
                                     "Status",
                                     style: MyFont.poppins(
                                         fontSize: 12, color: black),
@@ -125,6 +133,11 @@ class _SuratDitolakState extends State<SuratDitolak> {
                                         fontSize: 11, color: black),
                                   )),
                                   DataCell(Text(
+                                    e.keterangan.toString(),
+                                    style: MyFont.poppins(
+                                        fontSize: 11, color: black),
+                                  )),
+                                  DataCell(Text(
                                     e.surat!.namaSurat.toString(),
                                     style: MyFont.poppins(
                                         fontSize: 11, color: black),
@@ -134,7 +147,16 @@ class _SuratDitolakState extends State<SuratDitolak> {
                                     width: 80,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                        color: Colors.red),
+                                        color:
+                                            (e.status.toString() == "Diajukan")
+                                                ? Colors.amberAccent
+                                                : (e.status.toString() ==
+                                                        "Disetujui"
+                                                    ? Colors.green
+                                                    : (e.status.toString() ==
+                                                            "Ditolak")
+                                                        ? Colors.red
+                                                        : Colors.grey)),
                                     child: Center(
                                       child: Text(
                                         e.status.toString(),

@@ -3,8 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kepuharjo_framework/Comm/MySnackbar.dart';
+import 'package:kepuharjo_framework/Dashboard_RW/homepage_rw.dart';
 import 'package:kepuharjo_framework/HomePage/HomePage.dart';
-import 'package:kepuharjo_framework/Rt_Rw/MyHomepage_RtRw.dart';
+import 'package:kepuharjo_framework/Dashboard_RT/MyHomepage_RtRw.dart';
 import 'package:kepuharjo_framework/Screen/Register/register.dart';
 import 'package:kepuharjo_framework/Services/api_connect.dart';
 import 'package:kepuharjo_framework/Services/background_services.dart';
@@ -14,7 +15,7 @@ import 'package:kepuharjo_framework/Comm/MyTextField.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../Rt_Rw/dashboard.dart';
+import '../../Dashboard_RT/dashboard.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -77,29 +78,32 @@ class _LoginPageState extends State<LoginPage> {
           if (role == "4") {
             // Jika role == 1, push ke HomePage
             // ignore: use_build_context_synchronously
-            Navigator.pushReplacement(
+            Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
                 builder: (context) => const HomePage(),
               ),
+              (Route<dynamic> route) => false,
             );
           } else if (role == "2") {
             // Jika role == 2, push ke DashboardRt
             // ignore: use_build_context_synchronously
-            Navigator.pushReplacement(
+            Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomePageRTRW(),
+                builder: (context) => const DashboardRT(),
               ),
+              (Route<dynamic> route) => false,
             );
           } else if (role == "3") {
             // Jika role == 3, push ke DashboardRw
             // ignore: use_build_context_synchronously
-            Navigator.pushReplacement(
+            Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomePageRTRW(),
+                builder: (context) => const DashboardRW(),
               ),
+              (Route<dynamic> route) => false,
             );
           }
         }

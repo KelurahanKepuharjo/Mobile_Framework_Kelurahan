@@ -17,6 +17,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.10.0"
+  awesome_dialog:
+    dependency: "direct main"
+    description:
+      name: awesome_dialog
+      sha256: ac08268b991f228fc6b8880b68ec030d2941bcc8df8b6a6551fb79f2bd36b7da
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.2"
   boolean_selector:
     dependency: transitive
     description:
@@ -118,38 +126,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_background_service:
-    dependency: "direct main"
-    description:
-      name: flutter_background_service
-      sha256: "7b9f15ab7d1a5784850ecfde722be4ace4dbcf1072a1fe33b7f9cbe871241e53"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.4.6"
-  flutter_background_service_android:
-    dependency: "direct main"
-    description:
-      name: flutter_background_service_android
-      sha256: "57fd631d800f7e56ca5bfadcfc00c8903eb721b23506b1a387342039521883ec"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.3"
-  flutter_background_service_ios:
-    dependency: "direct main"
-    description:
-      name: flutter_background_service_ios
-      sha256: d3f1dc009137c1ac19f5e3d88668836f088a7e078396733547339765d46ff12f
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.4.0"
-  flutter_background_service_platform_interface:
-    dependency: transitive
-    description:
-      name: flutter_background_service_platform_interface
-      sha256: "5f0480ee8378984f718d640abbe09b4d6d024d58a72b2d8b86bdedb3cf095ff8"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.0"
   flutter_flushbar:
     dependency: "direct main"
     description:
@@ -216,6 +192,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.3"
+  graphs:
+    dependency: transitive
+    description:
+      name: graphs
+      sha256: "772db3d53d23361d4ffcf5a9bb091cf3ee9b22f2be52cd107cd7a2683a89ba0e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.0"
   http:
     dependency: "direct main"
     description:
@@ -424,6 +408,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.5"
+  rive:
+    dependency: transitive
+    description:
+      name: rive
+      sha256: "22e3755b75f4ea4492d2fecf4fc2acf1c8d0073df39781d290a20cbfe74c3760"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.1"
   shared_preferences:
     dependency: "direct main"
     description:

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kepuharjo_framework/Model/surat_model.dart';
-import 'package:kepuharjo_framework/Rt_Rw/custom_navigation_drawer.dart';
+import 'package:kepuharjo_framework/Dashboard_RT/custom_navigation_drawer.dart';
 import 'package:kepuharjo_framework/Services/api_services.dart';
 
 import '../Model/pengajuan_model.dart';
@@ -315,7 +315,8 @@ class _WidgetCardState extends State<WidgetCard> {
                                           fontSize: 11, color: black),
                                     )),
                                     DataCell(Text(
-                                      e.namaSurat ?? '',
+                                      "Surat Keterangan " +
+                                          e.namaSurat.toString(),
                                       style: MyFont.poppins(
                                           fontSize: 11, color: black),
                                     )),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kepuharjo_framework/Rt_Rw/custom_navigation_drawer.dart';
+import 'package:kepuharjo_framework/Dashboard_RT/custom_navigation_drawer.dart';
 
 class IntroPage1 extends StatelessWidget {
   const IntroPage1({super.key});
@@ -13,8 +13,7 @@ class IntroPage1 extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.network(
-              "http://suket-kel.wstif3a.id/assets/img/gambarhome.png"),
+          Image.asset("images/ob1.png"),
           const SizedBox(
             height: 70,
           ),

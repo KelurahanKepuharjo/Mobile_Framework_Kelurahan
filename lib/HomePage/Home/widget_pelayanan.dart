@@ -35,7 +35,7 @@ class _WidgetPelayananState extends State<WidgetPelayanan> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(10, 15, 0, 20),
+            padding: const EdgeInsets.fromLTRB(10, 10, 0, 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -85,7 +85,7 @@ class _WidgetPelayananState extends State<WidgetPelayanan> {
                               width: 40,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: Colors.white),
+                                  color: blue.withOpacity(0.1)),
                               child: Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: Column(

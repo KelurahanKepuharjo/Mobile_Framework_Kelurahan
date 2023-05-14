@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kepuharjo_framework/HomePage/Pengajuan/daftar_keluarga.dart';
 import 'package:kepuharjo_framework/Model/surat_model.dart';
-import 'package:kepuharjo_framework/Rt_Rw/custom_navigation_drawer.dart';
+import 'package:kepuharjo_framework/Dashboard_RT/custom_navigation_drawer.dart';
 import 'package:kepuharjo_framework/Services/api_connect.dart';
 import 'package:kepuharjo_framework/Services/api_services.dart';
 
@@ -38,28 +38,28 @@ class _PengajuanState extends State<Pengajuan> {
           ),
         ),
         body: SingleChildScrollView(
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
           child: Column(
             children: [
-              FutureBuilder<List<MasterSurat>>(
-                future: listdata,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData &&
-                      snapshot.connectionState == ConnectionState.done) {
-                    List<MasterSurat>? data = snapshot.data;
-                    return SizedBox(
-                        child: ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      itemCount: data!.length,
-                      itemBuilder: (context, index) {
-                        return SizedBox(
-                          height: 80,
-                          child: Card(
-                            elevation: 1,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+              RefreshIndicator(
+                color: lavender,
+                onRefresh: () async {
+                  listdata = apiServices.getSurat();
+                },
+                child: FutureBuilder<List<MasterSurat>>(
+                  future: listdata,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData &&
+                        snapshot.connectionState == ConnectionState.done) {
+                      List<MasterSurat>? data = snapshot.data;
+                      return SizedBox(
+                          child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: data!.length,
+                        itemBuilder: (context, index) {
+                          return SizedBox(
+                            height: 80,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -111,19 +111,19 @@ class _PengajuanState extends State<Pengajuan> {
                                 )
                               ],
                             ),
-                          ),
-                        );
-                      },
-                    ));
-                  } else if (snapshot.hasError) {
-                    return Text("${snapshot.error}");
-                  }
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: blue,
-                    ),
-                  );
-                },
+                          );
+                        },
+                      ));
+                    } else if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: blue,
+                      ),
+                    );
+                  },
+                ),
               )
             ],
           ),

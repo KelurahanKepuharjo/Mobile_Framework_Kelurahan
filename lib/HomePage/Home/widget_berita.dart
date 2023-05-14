@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kepuharjo_framework/Rt_Rw/custom_navigation_drawer.dart';
+import 'package:kepuharjo_framework/Dashboard_RT/custom_navigation_drawer.dart';
+import 'package:kepuharjo_framework/Services/api_connect.dart';
 import 'package:kepuharjo_framework/Services/api_services.dart';
 import 'package:kepuharjo_framework/Services/notifikasi_services.dart';
 import 'package:kepuharjo_framework/Shared/Myfont.dart';
@@ -31,83 +32,78 @@ class _WidgetBeritaState extends State<WidgetBerita> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Berita>>(
-      future: listdata,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done &&
-            snapshot.hasData) {
-          List<Berita>? data = snapshot.data;
-          // NotificationServices().showNotifications(
-          //     id: 1, title: "S-Kepuharjo", body: "Berita terbaru");
-          return SizedBox(
-            height: MediaQuery.of(context).size.height * 0.3,
-            child: ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemCount: data!.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  width: 200,
-                  height: 200,
-                  child: Card(
-                    elevation: 1, // tinggi bayangan
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            height: 120,
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: AssetImage("images/kab.jpeg"),
-                                    fit: BoxFit.cover),
-                                borderRadius: BorderRadius.circular(10)),
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0),
+      child: FutureBuilder<List<Berita>>(
+        future: listdata,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
+            List<Berita>? data = snapshot.data;
+            return SizedBox(
+              height: MediaQuery.of(context).size.height * 0.3,
+              child: ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: data!.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 125,
+                          width: 125,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: NetworkImage(Api.connectimage +
+                                      data[index].image.toString()),
+                                  fit: BoxFit.cover),
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        SizedBox(
+                          width: 125,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                data[index].judul.toString(),
+                                style: MyFont.poppins(
+                                    fontSize: 13,
+                                    color: black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                data[index].subTitle.toString(),
+                                style: MyFont.poppins(
+                                    fontSize: 11,
+                                    color: black,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  data[index].judul.toString(),
-                                  style: MyFont.poppins(
-                                      fontSize: 14,
-                                      color: black,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  data[index].subTitle.toString(),
-                                  style: MyFont.poppins(
-                                      fontSize: 11,
-                                      color: black,
-                                      fontWeight: FontWeight.w300),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
+            );
+          } else if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          }
+          return Center(
+            child: CircularProgressIndicator(
+              color: blue,
             ),
           );
-        } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
-        }
-        return Center(
-          child: CircularProgressIndicator(
-            color: blue,
-          ),
-        );
-      },
+        },
+      ),
     );
   }
 }

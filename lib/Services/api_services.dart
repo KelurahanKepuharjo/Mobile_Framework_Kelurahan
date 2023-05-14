@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:kepuharjo_framework/Auth/Auth_services.dart';
 import 'package:kepuharjo_framework/Model/pengajuan_model.dart';
+import 'package:kepuharjo_framework/Model/status_surat.dart';
 import 'package:kepuharjo_framework/Model/surat_model.dart';
 import 'package:kepuharjo_framework/Model/user_model.dart';
 import 'package:kepuharjo_framework/Services/api_connect.dart';
@@ -73,6 +74,19 @@ class ApiServices {
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body)['data'];
       return jsonData;
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
+
+  Future<List<Status>> getStatus(String status) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    var res = await http.post(Uri.parse(Api.status),
+        body: {"status": status}, headers: {"Authorization": "Bearer $token"});
+    if (res.statusCode == 200) {
+      List jsonResponse = json.decode(res.body)['data'];
+      return jsonResponse.map((e) => Status.fromJson(e)).toList();
     } else {
       throw Exception('Failed to load');
     }

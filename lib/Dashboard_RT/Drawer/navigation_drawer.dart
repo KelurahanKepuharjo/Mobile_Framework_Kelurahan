@@ -1,6 +1,6 @@
-import 'package:kepuharjo_framework/Rt_Rw/Drawer/select.dart';
-import 'package:kepuharjo_framework/Rt_Rw/Screen/Surat_Masuk.dart';
-import 'package:kepuharjo_framework/Rt_Rw/dashboard.dart';
+import 'package:kepuharjo_framework/Dashboard_RT/Drawer/select.dart';
+import 'package:kepuharjo_framework/Dashboard_RT/Screen/Surat_Masuk.dart';
+import 'package:kepuharjo_framework/Dashboard_RT/dashboard.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

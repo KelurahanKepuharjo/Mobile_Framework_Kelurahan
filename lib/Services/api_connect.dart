@@ -1,5 +1,5 @@
 class Api {
-  static const connectapi = "http://192.168.1.79:8000";
+  static const connectapi = "http://192.168.0.118:8000";
   static const connectHost = "$connectapi/api";
   static const connectimage = "$connectapi/images/";
 
@@ -13,4 +13,8 @@ class Api {
   static const rekap = "$connectHost/rekap";
   static const keluarga = "$connectHost/keluarga";
   static const disetujui = "$connectHost/disetujui";
+  static const pengajuan = "$connectHost/pengajuan";
+
+  //status
+  static const status = "$connectHost/statusdiajukan";
 }

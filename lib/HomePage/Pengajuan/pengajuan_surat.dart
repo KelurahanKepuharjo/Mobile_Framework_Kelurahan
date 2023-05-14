@@ -1,12 +1,21 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kepuharjo_framework/Auth/Auth_services.dart';
+import 'package:kepuharjo_framework/Comm/MySnackbar.dart';
 import 'package:kepuharjo_framework/Comm/MyTextField.dart';
+import 'package:kepuharjo_framework/Comm/MyTextField_Pengajuan.dart';
+import 'package:kepuharjo_framework/HomePage/HomePage.dart';
 import 'package:kepuharjo_framework/Model/keluarga.dart';
 import 'package:kepuharjo_framework/Model/pengajuan_model.dart';
 import 'package:kepuharjo_framework/Model/surat_model.dart';
-import 'package:kepuharjo_framework/Rt_Rw/custom_navigation_drawer.dart';
+import 'package:kepuharjo_framework/Dashboard_RT/custom_navigation_drawer.dart';
+import 'package:kepuharjo_framework/Services/api_connect.dart';
 import 'package:kepuharjo_framework/Services/api_services.dart';
+import 'package:http/http.dart' as http;
+import 'package:awesome_dialog/awesome_dialog.dart';
 
 class Pengajuansurat extends StatefulWidget {
   String idsurat;
@@ -33,7 +42,6 @@ class _PengajuansuratState extends State<Pengajuansurat> {
     nik.text = widget.masyarakat.nik.toString();
     nokk.text = widget.keluarga.noKk.toString();
     nama.text = widget.masyarakat.namaLengkap.toString();
-
   }
 
   final nik = TextEditingController();
@@ -48,12 +56,83 @@ class _PengajuansuratState extends State<Pengajuansurat> {
   final agama = TextEditingController();
   final keperluan = TextEditingController();
 
+  void verifypengajuan() {
+    if (keperluan.text.isEmpty) {
+      Fluttertoast.showToast(
+          msg: "Silahkan isi keperluan anda",
+          backgroundColor: Colors.red,
+          toastLength: Toast.LENGTH_LONG);
+    } else {
+      showSuccessDialog(context);
+    }
+  }
+
+  Future pengajuansurat() async {
+    try {
+      var res = await http.post(Uri.parse(Api.pengajuan), body: {
+        "nik": widget.masyarakat.nik.toString(),
+        "id_surat": widget.idsurat,
+        "keterangan": keperluan.text,
+      });
+      final data = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        if (data['message'] == "Berhasil mengajukan surat") {
+          // ignore: use_build_context_synchronously
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomePage(),
+            ),
+            (Route<dynamic> route) => false,
+          ).then((value) {
+            Fluttertoast.showToast(
+                msg: "Berhasil mengajukan surat",
+                backgroundColor: Colors.green,
+                toastLength: Toast.LENGTH_LONG);
+          });
+        }
+      } else {
+        final data = jsonDecode(res.body);
+        if (data['message'] == "Surat sebelumnya belum selesai") {
+          MySnackbar(
+                  type: SnackbarType.failed,
+                  title:
+                      "Mohon maaf, anda tidak bisa mengajukan surat , jika surat sebelumnya masih belum selesai")
+              .showSnackbar(context);
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  showSuccessDialog(BuildContext context) {
+    AwesomeDialog(
+      context: context,
+      animType: AnimType.SCALE,
+      dialogType: DialogType.WARNING,
+      title: 'Warning!',
+      titleTextStyle: MyFont.poppins(
+          fontSize: 25, color: lavender, fontWeight: FontWeight.bold),
+      desc: 'Apakah anda yakin, Jika data yang anda masukan telah benar',
+      descTextStyle: MyFont.poppins(fontSize: 12, color: softgrey),
+      btnOkOnPress: () {
+        pengajuansurat();
+      },
+      btnCancelOnPress: () {
+        Navigator.pop(context);
+      },
+      btnCancelIcon: Icons.highlight_off_rounded,
+      btnOkIcon: Icons.task_alt_rounded,
+    ).show();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: white,
       appBar: AppBar(
-          backgroundColor: blue,
+          backgroundColor: lavender,
           shadowColor: Colors.transparent,
           centerTitle: true,
           automaticallyImplyLeading: false,
@@ -95,43 +174,51 @@ class _PengajuansuratState extends State<Pengajuansurat> {
                     fontSize: 11, color: black, fontWeight: FontWeight.normal),
               ),
             ),
-            GetTextFieldUser(
+            GetTextFieldPengajuan(
                 controller: nokk,
                 label: "No. Kartu Keluarga",
-                isEnable: false,
                 keyboardType: TextInputType.name,
                 inputFormatters:
-                    FilteringTextInputFormatter.singleLineFormatter,
-                length: 20,
-                icon: Icons.person),
-            GetTextFieldUser(
-                controller: nik,
-                label: "NIK",
-                isEnable: false,
-                keyboardType: TextInputType.name,
-                inputFormatters:
-                    FilteringTextInputFormatter.singleLineFormatter,
-                length: 16,
-                icon: Icons.person),
-            GetTextFieldUser(
-                controller: nama,
-                label: "Nama Lengkap",
-                isEnable: false,
-                keyboardType: TextInputType.name,
-                inputFormatters:
-                    FilteringTextInputFormatter.singleLineFormatter,
-                length: 100,
-                icon: Icons.person),
-            GetTextFieldUser(
-                controller: keperluan,
-                label: "Keperluan",
-                isEnable: false,
-                keyboardType: TextInputType.name,
-                inputFormatters:
-                    FilteringTextInputFormatter.singleLineFormatter,
-                length: 16,
-                icon: Icons.person),
-          
+                    FilteringTextInputFormatter.singleLineFormatter),
+            GetTextFieldPengajuan(
+              controller: nik,
+              label: "No. Induk Keluarga",
+              keyboardType: TextInputType.name,
+              inputFormatters: FilteringTextInputFormatter.singleLineFormatter,
+            ),
+            GetTextFieldPengajuan(
+              controller: nama,
+              label: "Nama Lengkap",
+              keyboardType: TextInputType.name,
+              inputFormatters: FilteringTextInputFormatter.singleLineFormatter,
+            ),
+            GetTextFieldPengajuan(
+              controller: keperluan,
+              label: "Keperluan",
+              isEnable: true,
+              keyboardType: TextInputType.name,
+              inputFormatters: FilteringTextInputFormatter.singleLineFormatter,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 30),
+              child: SizedBox(
+                  height: 48,
+                  width: MediaQuery.of(context).size.width,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: lavender,
+                        shadowColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        )),
+                    onPressed: () async {
+                      verifypengajuan();
+                    },
+                    child: Text('Ajukan Surat',
+                        textAlign: TextAlign.center,
+                        style: MyFont.poppins(fontSize: 14, color: white)),
+                  )),
+            ),
           ],
         ),
       ),

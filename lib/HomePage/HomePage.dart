@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:kepuharjo_framework/HomePage/Home/Home.dart';
+import 'package:kepuharjo_framework/HomePage/Home/Home_user.dart';
 import 'package:kepuharjo_framework/HomePage/Pengajuan/Pengajuan.dart';
 import 'package:kepuharjo_framework/HomePage/Status/Status.dart';
 import 'package:kepuharjo_framework/Shared/Mycolor.dart';
@@ -28,7 +29,7 @@ class _HomePageState extends State<HomePage> {
 
   int index = 0;
   List<Widget> screen = <Widget>[
-    const Home(),
+    const DashboardUser(),
     const Pengajuan(),
     const Status(),
   ];
@@ -73,7 +74,7 @@ class _HomePageState extends State<HomePage> {
           selectedFontSize: 12,
           type: BottomNavigationBarType.fixed,
           showUnselectedLabels: true,
-          selectedItemColor: blue,
+          selectedItemColor: lavender,
           unselectedItemColor: softgrey,
           currentIndex: index,
           onTap: onTap,

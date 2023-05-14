@@ -3,7 +3,7 @@ import 'package:kepuharjo_framework/Auth/Auth_services.dart';
 import 'package:kepuharjo_framework/HomePage/Pengajuan/pengajuan_surat.dart';
 import 'package:kepuharjo_framework/Model/keluarga.dart';
 import 'package:kepuharjo_framework/Model/surat_model.dart';
-import 'package:kepuharjo_framework/Rt_Rw/custom_navigation_drawer.dart';
+import 'package:kepuharjo_framework/Dashboard_RT/custom_navigation_drawer.dart';
 
 class DaftarKeluarga extends StatefulWidget {
   final MasterSurat selectedSurat;
@@ -31,7 +31,7 @@ class _DaftarKeluargaState extends State<DaftarKeluarga> {
     String namaSurat = widget.selectedSurat.namaSurat.toString();
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: blue,
+          backgroundColor: lavender,
           shadowColor: Colors.transparent,
           centerTitle: true,
           automaticallyImplyLeading: false,
@@ -53,7 +53,7 @@ class _DaftarKeluargaState extends State<DaftarKeluarga> {
             ),
           )),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(5),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -70,7 +70,6 @@ class _DaftarKeluargaState extends State<DaftarKeluarga> {
                         itemCount: data!.length,
                         itemBuilder: (context, index) {
                           return SizedBox(
-                            height: 90,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -89,6 +88,23 @@ class _DaftarKeluargaState extends State<DaftarKeluarga> {
                                           ),
                                         ));
                                   },
+                                  leading: Container(
+                                    height: 40,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: blue.withOpacity(0.1)),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.people_alt_rounded,
+                                          color: lavender,
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                   title: Text(
                                     data[index]
                                         .masyarakat![index]
@@ -109,10 +125,9 @@ class _DaftarKeluargaState extends State<DaftarKeluarga> {
                                   ),
                                   trailing: Icon(
                                     Icons.keyboard_arrow_right_rounded,
-                                    color: blue,
+                                    color: lavender,
                                   ),
                                 ),
-                                Divider(),
                               ],
                             ),
                           );

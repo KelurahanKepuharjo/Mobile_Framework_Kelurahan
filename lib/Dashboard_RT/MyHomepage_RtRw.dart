@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:kepuharjo_framework/Auth/Auth_services.dart';
 import 'package:kepuharjo_framework/Model/user_model.dart';
-import 'package:kepuharjo_framework/Rt_Rw/Drawer/select.dart';
-import 'package:kepuharjo_framework/Rt_Rw/Screen/Rekap_Pengajuan.dart';
-import 'package:kepuharjo_framework/Rt_Rw/Screen/Surat_Ditolak.dart';
-import 'package:kepuharjo_framework/Rt_Rw/Screen/Surat_Masuk.dart';
-import 'package:kepuharjo_framework/Rt_Rw/Screen/Surat_Selesai.dart';
-import 'package:kepuharjo_framework/Rt_Rw/Screen/Tentang.dart';
-import 'package:kepuharjo_framework/Rt_Rw/custom_navigation_drawer.dart';
-import 'package:kepuharjo_framework/Rt_Rw/dashboard.dart';
+import 'package:kepuharjo_framework/Dashboard_RT/Drawer/select.dart';
+import 'package:kepuharjo_framework/Dashboard_RT/Screen/Rekap_Pengajuan.dart';
+import 'package:kepuharjo_framework/Dashboard_RT/Screen/Surat_Ditolak.dart';
+import 'package:kepuharjo_framework/Dashboard_RT/Screen/Surat_Masuk.dart';
+import 'package:kepuharjo_framework/Dashboard_RT/Screen/Surat_Selesai.dart';
+import 'package:kepuharjo_framework/Dashboard_RT/Screen/Tentang.dart';
+import 'package:kepuharjo_framework/Dashboard_RT/custom_navigation_drawer.dart';
+import 'package:kepuharjo_framework/Dashboard_RT/dashboard.dart';
 import 'package:provider/provider.dart';
 
-class HomePageRTRW extends StatefulWidget {
-  const HomePageRTRW({super.key});
+class DashboardRT extends StatefulWidget {
+  const DashboardRT({super.key});
 
   @override
-  State<HomePageRTRW> createState() => _HomePageRTRWState();
+  State<DashboardRT> createState() => _DashboardRTState();
 }
 
-class _HomePageRTRWState extends State<HomePageRTRW> {
+class _DashboardRTState extends State<DashboardRT> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _openDrawer() {
