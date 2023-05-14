@@ -23,7 +23,7 @@ class _SuratSelesaiState extends State<SuratSelesai> {
 
   Future<void> getsuratSelesai() async {
     final api = ApiServices();
-    final surat = await api.getPengajuan("Disetujui");
+    final surat = await api.getPengajuan("Disetujui RT");
     setState(() {
       pengajuan = surat;
     });

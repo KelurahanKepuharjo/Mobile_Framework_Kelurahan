@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:kepuharjo_framework/Auth/Auth_services.dart';
 import 'package:kepuharjo_framework/Dashboard_RT/custom_navigation_drawer.dart';
 import 'package:kepuharjo_framework/HomePage/Status/TabBarView/surat_diajukan.dart';
+import 'package:kepuharjo_framework/HomePage/Status/TabBarView/surat_dibatalkan.dart';
+import 'package:kepuharjo_framework/HomePage/Status/TabBarView/surat_diproses.dart';
+import 'package:kepuharjo_framework/HomePage/Status/TabBarView/surat_ditolak.dart';
+import 'package:kepuharjo_framework/HomePage/Status/TabBarView/surat_selesai.dart';
 
 class Status extends StatefulWidget {
   const Status({super.key});
@@ -14,7 +18,7 @@ class _StatusState extends State<Status> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Scaffold(
           appBar: AppBar(
             backgroundColor: lavender,
@@ -49,10 +53,11 @@ class _StatusState extends State<Status> {
                           borderRadius: BorderRadius.circular(7),
                         ),
                         tabs: const [
-                          Tab(text: "Surat Diajukan"),
-                          Tab(text: "Surat Diporoses"),
-                          Tab(text: "Surat Selesai"),
-                          Tab(text: "Surat Ditolak"),
+                          Tab(text: "Diajukan"),
+                          Tab(text: "Diporoses"),
+                          Tab(text: "Selesai"),
+                          Tab(text: "Ditolak"),
+                          Tab(text: "Dibatalkan"),
                         ]),
                   ),
                 ),
@@ -64,13 +69,24 @@ class _StatusState extends State<Status> {
                     ),
                   ),
                   SizedBox(
-                    child: Column(),
+                    child: Column(
+                      children: [SuratDiprosesUser()],
+                    ),
                   ),
                   SizedBox(
-                    child: Column(),
+                    child: Column(
+                      children: [SuratSelesaiUser()],
+                    ),
                   ),
                   SizedBox(
-                    child: Column(),
+                    child: Column(
+                      children: [SuratDitolakUser()],
+                    ),
+                  ),
+                  SizedBox(
+                    child: Column(
+                      children: [SuratDibatalkanUser()],
+                    ),
                   ),
                 ]))
               ],

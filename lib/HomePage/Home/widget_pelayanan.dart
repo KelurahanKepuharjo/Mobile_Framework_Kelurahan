@@ -35,7 +35,7 @@ class _WidgetPelayananState extends State<WidgetPelayanan> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(10, 10, 0, 20),
+            padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -60,7 +60,7 @@ class _WidgetPelayananState extends State<WidgetPelayanan> {
                 if (snapshot.hasData) {
                   List<MasterSurat>? isiData = snapshot.data;
                   return GridView.builder(
-                    itemCount: isiData!.length,
+                    itemCount: isiData!.length > 8 ? 8 : isiData.length,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 4,

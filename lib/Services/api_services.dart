@@ -8,7 +8,6 @@ import 'package:kepuharjo_framework/Model/surat_model.dart';
 import 'package:kepuharjo_framework/Model/user_model.dart';
 import 'package:kepuharjo_framework/Services/api_connect.dart';
 import 'package:kepuharjo_framework/model/berita_model.dart';
-import 'package:kepuharjo_framework/Services/notifikasi_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -84,6 +83,36 @@ class ApiServices {
     final token = prefs.getString('token');
     var res = await http.post(Uri.parse(Api.status),
         body: {"status": status}, headers: {"Authorization": "Bearer $token"});
+    if (res.statusCode == 200) {
+      List jsonResponse = json.decode(res.body)['data'];
+      return jsonResponse.map((e) => Status.fromJson(e)).toList();
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
+
+  Future<List<Status>> getStatusDitolak() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    var res = await http.get(Uri.parse(Api.ditolak),
+        headers: {"Authorization": "Bearer $token"});
+    if (res.statusCode == 200) {
+      List jsonResponse = json.decode(res.body)['data'];
+      if (jsonResponse != null && jsonResponse.isNotEmpty) {
+        return jsonResponse.map((e) => Status.fromJson(e)).toList();
+      } else {
+        return [];
+      }
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
+
+  Future<List<Status>> getStatusDiproses() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    var res = await http.get(Uri.parse(Api.diproses),
+        headers: {"Authorization": "Bearer $token"});
     if (res.statusCode == 200) {
       List jsonResponse = json.decode(res.body)['data'];
       return jsonResponse.map((e) => Status.fromJson(e)).toList();

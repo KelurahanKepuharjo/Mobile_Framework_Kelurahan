@@ -44,7 +44,7 @@ class _WidgetCardState extends State<WidgetCard> {
 
   Future<void> _getSuratDisetujui() async {
     final api = ApiServices();
-    final surat = await api.getPengajuan("Disetujui");
+    final surat = await api.getPengajuan("Disetujui RT");
     setState(() {
       pengajuan1 = surat;
     });
@@ -52,7 +52,7 @@ class _WidgetCardState extends State<WidgetCard> {
 
   Future<void> _getSuratDitolak() async {
     final api = ApiServices();
-    final surat = await api.getPengajuan("Ditolak");
+    final surat = await api.getPengajuan("Ditolak RT");
     setState(() {
       pengajuan2 = surat;
     });

@@ -35,17 +35,16 @@ class _SuratMasukState extends State<SuratMasuk> {
     });
   }
 
-  Future setujui(String nik, String id) async {
+  Future setujui(String nik, String id, String setujui) async {
     try {
-      var res = await http
-          .post(Uri.parse(Api.disetujui), body: {"nik": nik, "id_surat": id});
+      var res = await http.post(Uri.parse(Api.disetujui),
+          body: {"nik": nik, "id_surat": id, "status": setujui});
       if (res.statusCode == 200) {
         final data = jsonDecode(res.body);
         if (data['message'] == "Surat berhasil dibatalkan") {
           MySnackbar(
                   type: SnackbarType.success, title: "Surat Berhasil Disetujui")
               .showSnackbar(context);
-          Navigator.pop(context);
         } else {
           MySnackbar(type: SnackbarType.failed, title: "Gagal")
               .showSnackbar(context);
@@ -383,7 +382,8 @@ class _SuratMasukState extends State<SuratMasuk> {
                                                                           () {
                                                                         setujui(
                                                                             pengajuan[index].nik.toString(),
-                                                                            e.surat!.idSurat.toString());
+                                                                            e.surat!.idSurat.toString(),
+                                                                            "Disetujui RT");
                                                                       });
                                                                     },
                                                                     child: Text(
@@ -406,7 +406,15 @@ class _SuratMasukState extends State<SuratMasuk> {
                                                                           borderRadius:
                                                                               BorderRadius.circular(10),
                                                                         )),
-                                                                    onPressed: () {},
+                                                                    onPressed: () {
+                                                                      setState(
+                                                                          () {
+                                                                        setujui(
+                                                                            pengajuan[index].nik.toString(),
+                                                                            e.surat!.idSurat.toString(),
+                                                                            "Ditolak RT");
+                                                                      });
+                                                                    },
                                                                     child: Text(
                                                                       "Tolak",
                                                                       style: MyFont.poppins(

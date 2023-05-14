@@ -1,23 +1,18 @@
-import 'dart:convert';
-
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:kepuharjo_framework/Comm/MySnackbar.dart';
 import 'package:kepuharjo_framework/Dashboard_RT/custom_navigation_drawer.dart';
 import 'package:kepuharjo_framework/Services/api_connect.dart';
 import 'package:kepuharjo_framework/Services/api_services.dart';
-import 'package:http/http.dart' as http;
+
 import '../../../Model/status_surat.dart';
 
-class SuratDiajukanUser extends StatefulWidget {
-  const SuratDiajukanUser({super.key});
+class SuratSelesaiUser extends StatefulWidget {
+  const SuratSelesaiUser({super.key});
 
   @override
-  State<SuratDiajukanUser> createState() => _SuratDiajukanUserState();
+  State<SuratSelesaiUser> createState() => _SuratSelesaiUserState();
 }
 
-class _SuratDiajukanUserState extends State<SuratDiajukanUser>
+class _SuratSelesaiUserState extends State<SuratSelesaiUser>
     with SingleTickerProviderStateMixin {
   ApiServices apiServices = ApiServices();
   late Future<List<Status>> listdata;
@@ -26,62 +21,10 @@ class _SuratDiajukanUserState extends State<SuratDiajukanUser>
   void initState() {
     // TODO: implement initState
     super.initState();
-    listdata = apiServices.getStatus("Diajukan");
+    listdata = apiServices.getStatus("Selesai");
   }
 
   List<bool> _isVisible = [];
-  showSuccessDialog(BuildContext context, String nik, String idSurat) {
-    AwesomeDialog(
-      context: context,
-      animType: AnimType.SCALE,
-      dialogType: DialogType.WARNING,
-      title: 'Warning!',
-      titleTextStyle: MyFont.poppins(
-          fontSize: 25, color: lavender, fontWeight: FontWeight.bold),
-      desc: 'Apakah anda yakin, untuk membatalkan surat?',
-      descTextStyle: MyFont.poppins(fontSize: 12, color: softgrey),
-      btnOkOnPress: () {
-        pembatalan(nik, idSurat);
-        setState(() {
-          _isVisible.add(false);
-        });
-      },
-      btnCancelOnPress: () {
-        Navigator.pop(context);
-      },
-      btnCancelIcon: Icons.highlight_off_rounded,
-      btnOkIcon: Icons.task_alt_rounded,
-    ).show();
-  }
-
-  Future pembatalan(String nik, String idSurat) async {
-    try {
-      var res = await http.post(Uri.parse(Api.pembatalan), body: {
-        "nik": nik,
-        "id_surat": idSurat,
-      });
-      final data = jsonDecode(res.body);
-      if (res.statusCode == 200) {
-        if (data['message'] == "Surat berhasil dibatalkan") {
-          setState(() {
-            listdata = apiServices.getStatus("Diajukan");
-          });
-          Fluttertoast.showToast(
-              msg: "Berhasil membatalkan surat",
-              backgroundColor: Colors.green,
-              toastLength: Toast.LENGTH_LONG);
-        } else {
-          Fluttertoast.showToast(
-              msg: "Gagal membatalkan surat",
-              backgroundColor: Colors.red,
-              toastLength: Toast.LENGTH_LONG);
-        }
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Status>>(
@@ -99,7 +42,7 @@ class _SuratDiajukanUserState extends State<SuratDiajukanUser>
             child: RefreshIndicator(
               color: lavender,
               onRefresh: () async {
-                listdata = apiServices.getStatus("Diajukan");
+                listdata = apiServices.getStatus("Selesai");
               },
               child: ListView.builder(
                 shrinkWrap: true,
@@ -146,7 +89,7 @@ class _SuratDiajukanUserState extends State<SuratDiajukanUser>
                                 width: 90,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
-                                    color: Colors.grey),
+                                    color: Colors.green),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -257,20 +200,37 @@ class _SuratDiajukanUserState extends State<SuratDiajukanUser>
                               width: MediaQuery.of(context).size.width,
                               child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor: lavender,
+                                      backgroundColor: Colors.red,
                                       shadowColor: Colors.transparent,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(5),
                                       )),
                                   onPressed: () {
-                                    showSuccessDialog(
-                                        context,
-                                        data[index].nik.toString(),
-                                        data[index].idSurat.toString());
+                                    // verifyLogin();
                                   },
-                                  child: Text('Batalkan Surat',
-                                      style: MyFont.poppins(
-                                          fontSize: 12, color: white))),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.picture_as_pdf_rounded,
+                                            color: white,
+                                          ),
+                                          const SizedBox(
+                                            width: 7,
+                                          ),
+                                          Text('Unduh Surat',
+                                              style: MyFont.poppins(
+                                                  fontSize: 12, color: white)),
+                                        ],
+                                      ),
+                                    ],
+                                  )),
                             ),
                           ),
                         ),

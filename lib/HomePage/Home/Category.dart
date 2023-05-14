@@ -17,6 +17,7 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
   Widget build(BuildContext context) {
     return Container(
       height: 700,
+      padding: EdgeInsets.only(top: 10),
       margin: EdgeInsets.only(top: 20),
       decoration: BoxDecoration(
           color: white,

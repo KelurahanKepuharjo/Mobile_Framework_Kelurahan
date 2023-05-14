@@ -6,6 +6,7 @@ import 'package:kepuharjo_framework/Auth/Auth_services.dart';
 import 'package:kepuharjo_framework/Dashboard_RT/custom_navigation_drawer.dart';
 import 'package:kepuharjo_framework/HomePage/Home/Category.dart';
 import 'package:kepuharjo_framework/HomePage/HomePage.dart';
+import 'package:kepuharjo_framework/HomePage/Pengaturan/Pengaturan.dart';
 
 class DashboardUser extends StatefulWidget {
   const DashboardUser({super.key});
@@ -46,7 +47,7 @@ class _DashboardUserState extends State<DashboardUser> {
       title: 'Warning!',
       titleTextStyle: MyFont.poppins(
           fontSize: 25, color: lavender, fontWeight: FontWeight.bold),
-      desc: 'Apakah anda yakin, Jika data yang anda masukan telah benar',
+      desc: 'Apakah anda yakin, untuk Keluar dari aplikasi',
       descTextStyle: MyFont.poppins(fontSize: 12, color: softgrey),
       btnOkOnPress: () {
         authServices.logout(context);
@@ -144,7 +145,13 @@ class _DashboardUserState extends State<DashboardUser> {
                   if (value != null) {
                     if (value == 1) {
                       showSuccessDialog(context);
-                    } else {}
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Pengaturan(),
+                          ));
+                    }
                   }
                 });
               },
@@ -236,7 +243,7 @@ class _DashboardUserState extends State<DashboardUser> {
                             width: 80,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  backgroundColor: lavender,
+                                  backgroundColor: lavender.withOpacity(0.9),
                                   shadowColor: Colors.transparent,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5),

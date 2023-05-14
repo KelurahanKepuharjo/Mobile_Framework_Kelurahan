@@ -10,20 +10,11 @@ import 'package:kepuharjo_framework/Dashboard_RT/MyHomepage_RtRw.dart';
 import 'package:kepuharjo_framework/Dashboard_RT/dashboard.dart';
 import 'package:kepuharjo_framework/Screen/Login/login.dart';
 import 'package:kepuharjo_framework/Screen/Wellcome/onboarding.dart';
-import 'package:kepuharjo_framework/Services/background_services.dart';
-import 'package:kepuharjo_framework/Services/notifikasi_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Permission.notification.isDenied.then((value) {
-  //   if (value) {
-  //     Permission.notification.request();
-  //   }
-  // });
-  // await initializeService();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -42,7 +33,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   bool _isLoggedIn = false;
   String _userRole = '';
-  // late ServiceInstance serviceInstance;
   void _checkIfLoggedIn() async {
     // check if token is there
     SharedPreferences localStorage = await SharedPreferences.getInstance();
@@ -68,14 +58,12 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     _checkIfLoggedIn();
     super.initState();
-    // FlutterBackgroundService().invoke('setAsForeground');
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    // FlutterBackgroundService().invoke('setAsBackground');
   }
 
   @override

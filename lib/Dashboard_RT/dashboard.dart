@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:kepuharjo_framework/Auth/Auth_services.dart';
+import 'package:kepuharjo_framework/Dashboard_RT/MyHomepage_RtRw.dart';
 import 'package:kepuharjo_framework/HomePage/Home/widget_berita.dart';
 import 'package:kepuharjo_framework/HomePage/Home/widget_headers.dart';
 import 'package:kepuharjo_framework/HomePage/Home/widget_text_berita.dart';
@@ -54,9 +56,35 @@ class _DashboarRtRwState extends State<DashboarRtRw> {
         break;
 
       case 1:
-        authServices.logout(context);
+        showSuccessDialog(context);
         break;
     }
+  }
+
+  showSuccessDialog(BuildContext context) {
+    AwesomeDialog(
+      context: context,
+      animType: AnimType.SCALE,
+      dialogType: DialogType.WARNING,
+      title: 'Warning!',
+      titleTextStyle: MyFont.poppins(
+          fontSize: 25, color: lavender, fontWeight: FontWeight.bold),
+      desc: 'Apakah anda yakin, untuk Keluar dari aplikasi',
+      descTextStyle: MyFont.poppins(fontSize: 12, color: softgrey),
+      btnOkOnPress: () {
+        authServices.logout(context);
+      },
+      btnCancelOnPress: () {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const DashboardRT(),
+            ),
+            (route) => false);
+      },
+      btnCancelIcon: Icons.highlight_off_rounded,
+      btnOkIcon: Icons.task_alt_rounded,
+    ).show();
   }
 
   @override
@@ -68,6 +96,7 @@ class _DashboarRtRwState extends State<DashboarRtRw> {
         body: SafeArea(
             child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
               WidgetTextDashboard(),
               WidgetCard(),
